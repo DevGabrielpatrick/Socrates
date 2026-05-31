@@ -48,7 +48,7 @@ body {
 .container {
     width: 700px;
     max-width: 90%;
-    padding: 50px;
+    padding: 80px;
     background-color: #131129;
     border: 2px solid #232d7c;
     border-radius: 30px;
@@ -200,5 +200,28 @@ button {
         margin-left: 0;
         margin-top: 250px;
         width: 180px;
+    }
+
+    @media (max-width: 768px) {
+
+    .circulo {
+        width: 450px;
+        height: 450px;
+        top: -225px;
+        margin-bottom: -180px;
+    }
+
+    .circulo img {
+        width: 140px;
+        margin-top: 180px;
+    }
+
+    .container {
+        padding: 25px;
+    }
+
+    .container h1 {
+        font-size: 32px;
+    }
     }
 }
