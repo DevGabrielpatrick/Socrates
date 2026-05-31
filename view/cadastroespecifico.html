@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="./Estilo/cadastro.css">
+</head>
+<body>
+    
+    <div class="circulo">
+        <img src="./imagens/socrates.png" alt="Logo">
+    </div>
+
+    <div class="container">
+
+    <h1>Cadastro</h1>
+
+    <form>
+
+        <div class="campo">
+            <label for="tipo">Sou</label>
+
+            <select id="tipo">
+                <option value="">Selecione</option>
+                <option value="aluno">Aluno</option>
+                <option value="estudante">Estudante</option>
+                <option value="professor">Professor</option>
+            </select>
+        </div>
+
+        <div class="campo" id="campo-area">
+            <label for="area">Área</label>
+
+            <select id="area">
+                <option value="">Selecione</option>
+                <option>Tecnologia da Informação</option>
+                <option>Saúde</option>
+                <option>Ciências da Natureza</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="curso">Curso</label>
+            <input type="text" id="curso">
+        </div>
+
+        <button type="submit">
+            Cadastrar
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
