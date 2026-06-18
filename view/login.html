@@ -17,24 +17,23 @@
 
         <h1>Login</h1>
 
-        <form>
+        <form action="/login" method="POST">
 
             <div class="campo">
-                <label for="usuario">Usuário:</label>
-                <input type="text" id="usuario">
-                <a href="#">Não tenho conta/Registrar</a>
+                <label for="usuario">Usuário (E-mail):</label>
+                <input type="email" id="usuario" name="email" required>
+                <a href="/cadastro">Não tenho conta/Registrar</a>
             </div>
 
             <div class="campo">
                 <label for="senha">Senha:</label>
-                <input type="password" id="senha">
+                <input type="password" id="senha" name="senha" required>
                 <a href="#">Esqueci minha senha</a>
             </div>
 
-            <button type="submit">Login</button>
+        <button type="submit">Login</button>
 
         </form>
-
     </div>
 
 </body>

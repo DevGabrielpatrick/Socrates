@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const sequelize = require('./DB');
 const cadastroController = require('./controller/cadastroController');
+const authController = require('./controller/authController');
 
 const app = express();
 const PORT = 3000;
@@ -25,6 +26,7 @@ app.get('/cadastro', (req, res) => {
 });
 
 app.post('/cadastrar_usuario', cadastroController.processarCadastro);
+app.post('/login', authController.processarLogin);
 
 sequelize.sync({ alter: true })
     .then(() => {
