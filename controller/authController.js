@@ -1,4 +1,5 @@
 const Usuario = require('../model/Usuario'); // Puxa a tabela do banco
+const bcrypt = require('bcrypt');
 
 function processarLogin(req, res) {
     // Pega o que o usuário digitou na tela
@@ -8,31 +9,34 @@ function processarLogin(req, res) {
     // Vai no banco de dados e procura alguém com esse e-mail
     Usuario.findOne({ where: { email: emailDigitado } })
         .then((usuarioEncontrado) => {
-            
-            
+
             if (!usuarioEncontrado) {
                 console.log('Login falhou: E-mail não existe.');
-                return res.redirect('/?erro=usuario_nao_encontrado');
+                return res.redirect('/login?erro=usuario_nao_encontrado');
             }
 
-         
-            if (usuarioEncontrado.senha !== senhaDigitada) {
-                console.log('Login falhou: Senha incorreta.');
-                return res.redirect('/?erro=senha_incorreta');
-            }
+            // Compara a senha digitada com o hash armazenado
+            return bcrypt.compare(senhaDigitada, usuarioEncontrado.senha)
+                .then((senhaValida) => {
 
-            console.log('Login realizado com sucesso por:', usuarioEncontrado.nome);
+                    if (!senhaValida) {
+                        console.log('Login falhou: Senha incorreta.');
+                        return res.redirect('/login?erro=senha_incorreta');
+                    }
 
-            req.session.usuarioId = usuarioEncontrado.id;
-            req.session.usuarioNome = usuarioEncontrado.nome;
+                    console.log('Login realizado com sucesso por:', usuarioEncontrado.nome);
 
-            req.session.save(() => {
-                res.redirect('/home');
-            });
+                    req.session.usuarioId = usuarioEncontrado.id;
+                    req.session.usuarioNome = usuarioEncontrado.nome;
+
+                    req.session.save(() => {
+                        res.redirect('/home');
+                    });
+                });
         })
         .catch((err) => {
             console.error('Erro ao tentar fazer login:', err);
-            res.redirect('/?erro=erro_no_servidor');
+            res.redirect('/login?erro=erro_no_servidor');
         });
 }
 

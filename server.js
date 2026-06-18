@@ -4,12 +4,20 @@ const session = require('express-session');
 const sequelize = require('./DB');
 const cadastroController = require('./controller/cadastroController');
 const authController = require('./controller/authController');
+const perfilController = require('./controller/perfilController');
+const homeController = require('./controller/homeController');
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Headers anti-cache para evitar o problema de 404 cacheado no navegador
+app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    next();
+});
 
 app.use(express.static(path.join(__dirname, 'view')));
 
@@ -39,9 +47,9 @@ app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, 'view', 'cadastrousuario.html'));
 });
 
-app.get('/home', requerLogin, (req, res) => {
-    res.sendFile(path.join(__dirname, 'view', 'home.html'));
-});
+app.get('/alterar_perfil', requerLogin, perfilController.mostrarPerfil)
+
+app.get('/home', requerLogin, homeController.mostrarHome);
 
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
@@ -51,6 +59,10 @@ app.get('/logout', (req, res) => {
 
 app.post('/cadastrar_usuario', cadastroController.processarCadastro);
 app.post('/login', authController.processarLogin);
+app.post('/atualizar_perfil', (req, res, next) => {
+    console.log('[POST /atualizar_perfil] body:', req.body, 'file:', req.file);
+    next();
+}, requerLogin, perfilController.atualizarPerfil);
 
 sequelize.sync({ alter: true })
     .then(() => {

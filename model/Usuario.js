@@ -34,6 +34,10 @@ const Usuario = DB.define('Usuario', {
     curso: {
         type: Sequelize.STRING,
         allowNull: true
+    },
+    foto: {
+        type: Sequelize.STRING,
+        allowNull: true
     }
 }, {
     tableName: "usuario",

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Socrates - Materiais</title>
     <link rel="stylesheet" href="./Estilo/home.css">
+    <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
 
     <link
         rel="stylesheet"
@@ -37,7 +38,7 @@
                 <i class="fa-solid fa-folder-open"></i>
             </a>
 
-            <a href="#">
+            <a href="/alterar_perfil">
                 <i class="fa-regular fa-circle-user"></i>
             </a>
 
@@ -61,11 +62,14 @@
                 >
             </div>
 
-            <img
-                src="https://i.pravatar.cc/80"
-                alt="perfil"
-                class="avatar"
-            >
+            <a href="/alterar_perfil" class="perfil-link">
+                <img
+                    src="{{FOTO}}"
+                    alt="perfil"
+                    class="avatar"
+                >
+                <span class="perfil-nome">{{NOME}}</span>
+            </a>
 
         </header>
 
