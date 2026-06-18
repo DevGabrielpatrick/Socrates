@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
-
     <link rel="stylesheet" href="./Estilo/login.css">
     <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
-
 </head>
 <body>
 
@@ -21,30 +19,48 @@
 
             <h1>Cadastro</h1>
 
-            <form>
+            <form action="/cadastrar_usuario" method="POST">
 
                 <div class="campo">
                     <label for="nome">Nome Completo:</label>
-                    <input type="text" id="nome">
+                    <input type="text" id="nome" name="nome" required>
                 </div>
 
                 <div class="campo">
                     <label for="email">Email:</label>
-                    <input type="email" id="email">
+                    <input type="email" id="email" name="email" required>
                 </div>
 
                 <div class="campo">
                     <label for="senha">Senha:</label>
-                    <input type="password" id="senha">
+                    <input type="password" id="senha" name="senha" required>
                 </div>
 
                 <div class="campo">
                     <label for="confirmar-senha">Confirmar senha:</label>
-                    <input type="password" id="confirmar-senha">
+                    <input type="password" id="confirmar-senha" name="confirmarSenha" required>
+                </div>
+
+                <div class="campo">
+                    <label for="perfil">Perfil:</label>
+                    <select id="perfil" name="perfil" required style="width: 100%; padding: 8px; border-radius: 4px;">
+                        <option value="aluno">Aluno</option>
+                        <option value="professor">Professor</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="area">Área de Conhecimento:</label>
+                    <input type="text" id="area" name="area" required>
+                </div>
+
+                <div class="campo">
+                    <label for="curso">Curso:</label>
+                    <input type="text" id="curso" name="curso" required>
                 </div>
 
                 <button type="submit">
-                    Próximo
+                    Cadastrar
                 </button>
 
             </form>

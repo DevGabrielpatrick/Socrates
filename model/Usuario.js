@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize');
 const DB = require('../DB');
-const { timeStamp } = require('node:console');
-
 const Usuario = DB.define('Usuario', {
     id: {
         type: Sequelize.INTEGER,
@@ -9,12 +7,10 @@ const Usuario = DB.define('Usuario', {
         allowNull: false,
         primaryKey: true
     },
-
     nome : {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
     },
-
     email: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -23,30 +19,25 @@ const Usuario = DB.define('Usuario', {
             isEmail: true
         }
     },
-
     senha: {
         type: Sequelize.STRING,
         allowNull: false
     },
-
     perfil: {
         type: Sequelize.STRING,
         allowNull: false
     },
-
     area: {
         type: Sequelize.STRING,
         allowNull: true
     },
-
     curso: {
         type: Sequelize.STRING,
         allowNull: true
     }
-
 }, {
     tableName: "usuario",
-    timeStamp: true
+    timestamps: true // CORRIGIDO: Plural com 's'
 });
 
 module.exports = Usuario;
