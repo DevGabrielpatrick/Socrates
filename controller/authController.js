@@ -22,9 +22,13 @@ function processarLogin(req, res) {
             }
 
             console.log('Login realizado com sucesso por:', usuarioEncontrado.nome);
-            
 
-            res.redirect('/?sucesso=logado'); 
+            req.session.usuarioId = usuarioEncontrado.id;
+            req.session.usuarioNome = usuarioEncontrado.nome;
+
+            req.session.save(() => {
+                res.redirect('/home');
+            });
         })
         .catch((err) => {
             console.error('Erro ao tentar fazer login:', err);
