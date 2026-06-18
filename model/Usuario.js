@@ -37,7 +37,7 @@ const Usuario = DB.define('Usuario', {
     }
 }, {
     tableName: "usuario",
-    timestamps: true // CORRIGIDO: Plural com 's'
+    timestamps: true
 });
 
 module.exports = Usuario;
