@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração de Perfil</title>
+
+    <link rel="stylesheet" href="./Estilo/perfil.css">
+    <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        <i class="fa-solid fa-graduation-cap"></i>
+    </div>
+
+    <nav>
+
+        <a href="/home">
+            <i class="fa-solid fa-table-cells-large"></i>
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </a>
+
+        <a href="#">
+            <i class="fa-regular fa-file-lines"></i>
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-folder-open"></i>
+        </a>
+
+        <a href="/alterar_perfil" class="active">
+            <i class="fa-regular fa-circle-user"></i>
+        </a>
+
+    </nav>
+
+    <div class="logout">
+        <a href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+    </div>
+
+</div>
+
+<main>
+
+    <h2>Configuração de perfil</h2>
+
+    <div class="container">
+
+        <div id="mensagem" style="display:none; margin-bottom:20px; padding:12px; border-radius:10px; text-align:center;"></div>
+
+        <form action="/atualizar_perfil" method="POST" enctype="multipart/form-data">
+
+            <div class="foto-area">
+
+                <label>Foto de perfil</label>
+
+                <div class="foto-wrapper">
+
+                    <img
+                        src="https://i.pravatar.cc/250"
+                        alt="Perfil"
+                    >
+
+                    <input type="file" name="foto">
+
+                </div>
+
+            </div>
+
+            <div class="campo">
+
+                <label>Nome</label>
+
+                <input
+                    type="text"
+                    name="nome"
+                    value="Josefina da Silva"
+                >
+
+            </div>
+
+            <div class="campo">
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    value="josefina57@gmail.com"
+                >
+
+            </div>
+
+            <div class="campo">
+
+                <label>Trocar senha (deixe em branco para manter a atual)</label>
+
+                <input
+                    type="password"
+                    name="senha"
+                    placeholder="••••••"
+                >
+
+
+
+            </div>
+
+            <div class="acoes">
+
+                <button
+                    type="button"
+                    class="btn-excluir"
+                >
+                    Excluir conta
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn-atualizar"
+                >
+                    Atualizar
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+<script>
+    (function () {
+        var params = new URLSearchParams(window.location.search);
+        var msg = document.getElementById('mensagem');
+        if (!msg) return;
+
+        if (params.get('sucesso') === '1') {
+            msg.style.display = 'block';
+            msg.style.background = '#1f7a3a';
+            msg.style.color = 'white';
+            msg.textContent = 'Perfil atualizado com sucesso!';
+        } else if (params.get('erro')) {
+            var erros = {
+                'campos_obrigatorios': 'Nome e email são obrigatórios.',
+                'email_duplicado': 'Este email já está em uso por outra conta.',
+                'upload_falhou': 'Falha no upload da foto (tamanho máximo 5 MB, tipos: JPG, PNG, GIF, WEBP).',
+                '1': 'Erro ao atualizar. Tente novamente.'
+            };
+            msg.style.display = 'block';
+            msg.style.background = '#7a1f1f';
+            msg.style.color = 'white';
+            msg.textContent = erros[params.get('erro')] || 'Erro desconhecido.';
+        }
+    })();
+</script>
+
+</body>
+</html>

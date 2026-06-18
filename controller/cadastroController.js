@@ -1,4 +1,5 @@
 const Usuario = require('../model/Usuario');
+const bcrypt = require('bcrypt');
 
 function processarCadastro(req, res) {
 
@@ -12,17 +13,22 @@ function processarCadastro(req, res) {
     };
 
     if (!dados_usuario.nome || !dados_usuario.email || !dados_usuario.senha || !dados_usuario.perfil) {
-        return res.redirect('/cadastrar_usuario?erro=campos_obrigatorios');
+        return res.redirect('/cadastro?erro=campos_obrigatorios');
     }
 
     if (req.body.senha !== req.body.confirmarSenha) {
-        return res.redirect('/cadastrar_usuario?erro=senhas_diferentes');
+        return res.redirect('/cadastro?erro=senhas_diferentes');
     }
 
-    Usuario.findOne({ where: { email: dados_usuario.email } })
+    bcrypt.hash(dados_usuario.senha, 10)
+        .then((senhaHash) => {
+            dados_usuario.senha = senhaHash;
+
+            return Usuario.findOne({ where: { email: dados_usuario.email } });
+        })
         .then((usuarioExistente) => {
             if (usuarioExistente) {
-                return res.redirect('/cadastrar_usuario?erro=email_duplicado');
+                return res.redirect('/cadastro?erro=email_duplicado');
             }
 
             return Usuario.create(dados_usuario)
@@ -32,7 +38,7 @@ function processarCadastro(req, res) {
         })
         .catch((err) => {
             console.error('Erro nas operações do banco de dados:', err);
-            res.redirect('/cadastrar_usuario?erro=1');
+            res.redirect('/cadastro?erro=1');
         });
 }
 

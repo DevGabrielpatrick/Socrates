@@ -85,6 +85,40 @@ header{
     width:48px;
     height:48px;
     border-radius:50%;
+    object-fit:cover;
+}
+
+.perfil-link{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:#fff;
+    transition:opacity .3s;
+}
+
+.perfil-link:hover{
+    opacity:.8;
+}
+
+.perfil-texto{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    text-align:right;
+    line-height:1.2;
+}
+
+.saudacao{
+    font-size:13px;
+    color:#a0a0c0;
+    font-weight:400;
+}
+
+.perfil-nome{
+    font-size:15px;
+    font-weight:500;
+    color:#fff;
 }
 
 .content{
