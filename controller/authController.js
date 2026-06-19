@@ -30,7 +30,7 @@ function processarLogin(req, res) {
                     req.session.usuarioNome = usuarioEncontrado.nome;
 
                     req.session.save(() => {
-                        res.redirect('/home');
+                        res.redirect('/carregando?to=/home&msg=Bem-vindo%20de%20volta!');
                     });
                 });
         })

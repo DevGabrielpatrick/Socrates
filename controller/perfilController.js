@@ -106,7 +106,7 @@ function atualizarPerfil(req, res) {
                 if (req.file) {
                     req.session.usuarioFoto = `/imagens/perfis/${req.file.filename}`;
                 }
-                res.redirect('/alterar_perfil?sucesso=1');
+                res.redirect('/carregando?to=/alterar_perfil%3Fsucesso%3D1&msg=Perfil%20atualizado!');
             })
             .catch((err) => {
                 console.error('Erro ao atualizar perfil:', err);
