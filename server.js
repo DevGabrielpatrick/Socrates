@@ -43,6 +43,10 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'view', 'login.html'));
 });
 
+app.get('/carregando', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view', 'telaCarregamento.html'));
+});
+
 app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, 'view', 'cadastrousuario.html'));
 });
@@ -53,7 +57,7 @@ app.get('/home', requerLogin, homeController.mostrarHome);
 
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
-        res.redirect('/login');
+        res.redirect('/carregando?to=/login&msg=Até%20logo!');
     });
 });
 
