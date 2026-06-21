@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração de Perfil</title>
+
+    <link rel="stylesheet" href="./Estilo/main.css">
+    <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<aside class="sidebar">
+
+        <div class="logo">
+            <img src="./imagens/socrates.png" alt="Logo">
+        </div>
+
+        <button class="menu-btn">
+    <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav>
+            
+     <a href="main.html" class="ativo" title="Home">
+        <img src="./imagens/Imagem1.png" alt="Dashboard">
+    </a>
+
+    <a href="pesquisa.html" title="Pesquisar">
+        <img src="./imagens/imagem5.png" alt="Dashboard">
+    </a>
+
+    <a href="materiais.html" title="Materiais">
+        <img src="./imagens/imagem6.png" alt="Materiais">
+    </a>
+
+    <a href="upload.html" title="Upload">
+       <img src="./imagens/imagem7.png" alt="Adicionar conteudo">
+    </a>
+
+    <a href="perfil.html" title="Perfil">
+        <img src="./imagens/Imagem2.png" alt="Perfil">
+    </a>
+        </nav>
+
+        <div class="logout">
+    <a href="login.html" title="Sair">
+        <img src="./imagens/Imagem3.png" alt="Perfil">
+    </a>
+</div>
+    </aside>
+
+
+<main class="conteudo">
+       <!--Caso o usuário já tenha enviado algum arquivo-->
+       <!--
+        <header>
+
+            <div class="pesquisa">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                type="text"
+                placeholder="Pesquisar Material">
+            </div>
+
+            <img
+            src="./imagens/imagem8.jpg"
+            alt="Usuário"
+            class="avatar">
+
+        </header>
+
+        <section class="topo">
+
+            <h2>Materiais Enviados por você</h2>
+
+           
+
+        </section>
+
+        <section class="cards">
+
+            <div class="card">
+
+                <img
+                src="./imagens/Imagem4.png"
+                alt="Node">
+
+                <div class="autor">
+                    <img
+                    src="./imagens/imagem8.jpg"
+                    alt="">
+                    <span>Aluno(a): Maria Silva</span>
+                </div>
+
+                <h3>Curso de Node JS</h3>
+
+                <div class="info">
+                    <span>Dificuldade</span>
+                    <span>Média</span>
+                </div>
+
+                <div class="info">
+                    <span>Arquivos</span>
+                    <span>1</span>
+                </div>
+
+                <div class="info">
+                    <span>Tipo</span>
+                    <span>PDF</span>
+                </div>
+
+                <button class="btn-card">
+                    Visualizar
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <img
+                src="./imagens/Imagem4.png"
+                alt="Node">
+
+                <div class="autor">
+                    <img
+                    src="./imagens/imagem8.jpg"
+                    alt="">
+                    <span>Aluno(a): Maria Silva</span>
+                </div>
+
+                <h3>Curso de Node JS</h3>
+
+                <div class="info">
+                    <span>Dificuldade</span>
+                    <span>Média</span>
+                </div>
+
+                <div class="info">
+                    <span>Arquivos</span>
+                    <span>1</span>
+                </div>
+
+                <div class="info">
+                    <span>Tipo</span>
+                    <span>PDF</span>
+                </div>
+
+                <button class="btn-card">
+                    Visualizar
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <img
+                src="./imagens/Imagem4.png"
+                alt="Node">
+
+                <div class="autor">
+                    <img
+                    src="./imagens/imagem8.jpg"
+                    alt="">
+                    <span>Aluno(a): Maria Silva</span>
+                </div>
+
+                <h3>Curso de Node JS</h3>
+
+                <div class="info">
+                    <span>Dificuldade</span>
+                    <span>Média</span>
+                </div>
+
+                <div class="info">
+                    <span>Arquivos</span>
+                    <span>1</span>
+                </div>
+
+                <div class="info">
+                    <span>Tipo</span>
+                    <span>PDF</span>
+                </div>
+
+                <button class="btn-card">
+                    Visualizar
+                </button>
+
+            </div>
+
+        </section>
+        -->
+        <!--Caso o usuário não tenha enviado nenhum arquivo-->
+        <header class="sem-envio">
+            <h1>Você ainda não enviou nenhum conteúdo!!!</h1>
+        </header>
+    
+
+
+</main>
+<script>
+    (function () {
+        var params = new URLSearchParams(window.location.search);
+        var msg = document.getElementById('mensagem');
+        if (!msg) return;
+
+        if (params.get('sucesso') === '1') {
+            msg.style.display = 'block';
+            msg.style.background = '#1f7a3a';
+            msg.style.color = 'white';
+            msg.textContent = 'Perfil atualizado com sucesso!';
+        } else if (params.get('erro')) {
+            var erros = {
+                'campos_obrigatorios': 'Nome e email são obrigatórios.',
+                'email_duplicado': 'Este email já está em uso por outra conta.',
+                'upload_falhou': 'Falha no upload da foto (tamanho máximo 5 MB, tipos: JPG, PNG, GIF, WEBP).',
+                '1': 'Erro ao atualizar. Tente novamente.'
+            };
+            msg.style.display = 'block';
+            msg.style.background = '#7a1f1f';
+            msg.style.color = 'white';
+            msg.textContent = erros[params.get('erro')] || 'Erro desconhecido.';
+        }
+    })();
+</script>
+
+<script src="./interceptor.js"></script>
+
+</body>
+</html>

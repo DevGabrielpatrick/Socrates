@@ -33,7 +33,7 @@ function processarCadastro(req, res) {
 
             return Usuario.create(dados_usuario)
                 .then(() => {
-                    res.redirect('/login');
+                    res.redirect('/carregando?to=/login&msg=Cadastro%20realizado!');
                 });
         })
         .catch((err) => {
