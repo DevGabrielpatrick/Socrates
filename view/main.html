@@ -27,29 +27,29 @@
 
         <nav>
             
-     <a href="main.html" class="ativo" title="Home">
+     <a href="/home" class="ativo" title="Home">
         <img src="./imagens/Imagem1.png" alt="Dashboard">
     </a>
 
-    <a href="pesquisa.html" title="Pesquisar">
+    <a href="/pesquisa" title="Pesquisar">
         <img src="./imagens/imagem5.png" alt="Dashboard">
     </a>
 
-    <a href="materiais.html" title="Materiais">
+    <a href="/materiais" title="Materiais">
         <img src="./imagens/imagem6.png" alt="Materiais">
     </a>
 
-    <a href="upload.html" title="Upload">
+    <a href="/upload" title="Upload">
        <img src="./imagens/imagem7.png" alt="Adicionar conteudo">
     </a>
 
-    <a href="perfil.html" title="Perfil">
+    <a href="/alterar_perfil" title="Perfil">
         <img src="./imagens/Imagem2.png" alt="Perfil">
     </a>
         </nav>
 
         <div class="logout">
-    <a href="login.html" title="Sair">
+    <a href="/logout" title="Sair">
         <img src="./imagens/Imagem3.png" alt="Perfil">
     </a>
 </div>
@@ -66,16 +66,18 @@
                 placeholder="Pesquisar Material">
             </div>
 
+            <a href="/alterar_perfil" title="Meu perfil">
             <img
-            src="./imagens/imagem8.jpg"
-            alt="Usuário"
+            src="{{FOTO}}"
+            alt="{{NOME}}"
             class="avatar">
+            </a>
 
         </header>
 
         <section class="topo">
 
-            <h2>Materiais disponíveis</h2>
+            <h2>{{SAUDACAO}}, {{NOME}}!</h2>
 
             <div class="filtros">
                 <button class="ativo">Tudo</button>
@@ -208,5 +210,6 @@ botao.addEventListener("click", () => {
     sidebar.classList.toggle("ativo");
 });
 </script>
+<script src="./interceptor.js"></script>
 </body>
 </html>
