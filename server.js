@@ -79,7 +79,7 @@ app.post('/atualizar_perfil', (req, res, next) => {
     next();
 }, requerLogin, perfilController.atualizarPerfil);
 
-sequelize.sync({ alter: true })
+sequelize.sync()
     .then(() => {
         console.log('Base de dados conectada e pronta!');
         app.listen(PORT, () => {

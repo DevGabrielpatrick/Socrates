@@ -34,9 +34,30 @@
         <button type="submit">Login</button>
 
         </form>
+
+        <div id="aviso-login" class="aviso" hidden></div>
     </div>
 
     <script src="./interceptor.js"></script>
+    <script>
+        (function () {
+            const aviso = document.getElementById('aviso-login');
+            const params = new URLSearchParams(window.location.search);
+            const erro = params.get('erro');
+
+            const mensagens = {
+                usuario_nao_encontrado: 'E-mail não cadastrado. Verifique e tente novamente.',
+                senha_incorreta: 'Senha incorreta. Tente novamente.',
+                erro_no_servidor: 'Ocorreu um erro no servidor. Tente novamente em instantes.'
+            };
+
+            if (erro && mensagens[erro]) {
+                aviso.textContent = mensagens[erro];
+                aviso.hidden = false;
+                aviso.dataset.tipo = erro;
+            }
+        })();
+    </script>
 
 </body>
 </html>

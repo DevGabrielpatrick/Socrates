@@ -186,3 +186,33 @@ button:hover {
         font-size: 32px;
     }
 }
+
+/* Avisos do login */
+.aviso {
+    margin-top: 20px;
+    padding: 12px 18px;
+    border-radius: 15px;
+    font-size: 16px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #2a1f4d;
+    border: 1px solid #6f52ff;
+}
+
+.aviso[data-tipo="senha_incorreta"] {
+    background-color: #4a1f1f;
+    border-color: #ff6b6b;
+    color: #ffd6d6;
+}
+
+.aviso[data-tipo="usuario_nao_encontrado"] {
+    background-color: #4a3a1f;
+    border-color: #ffb84d;
+    color: #ffe9c2;
+}
+
+.aviso[data-tipo="erro_no_servidor"] {
+    background-color: #4a1f1f;
+    border-color: #ff6b6b;
+    color: #ffd6d6;
+}
