@@ -1,11 +1,16 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
+const multer = require('multer');
+const fs = require('fs');
 const sequelize = require('./DB');
 const cadastroController = require('./controller/cadastroController');
 const authController = require('./controller/authController');
 const perfilController = require('./controller/perfilController');
 const mainController = require('./controller/mainController');
+const projetoController = require('./controller/projetoController');
+const Projeto = require('./model/Projeto'); // Necessário para o Sequelize criar a tabela
+const Usuario = require('./model/Usuario'); // Adicione esta linha no topo
 
 const app = express();
 const PORT = 3000;
@@ -26,6 +31,20 @@ app.use(session({
     saveUninitialized: false,
     cookie: { httpOnly: true }
 }));
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const dir = path.join(__dirname, 'view', 'uploads');
+        if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+        }
+        cb(null, dir);
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+const upload = multer({ storage: storage });
 
 function requerLogin(req, res, next) {
     if (!req.session.usuarioId) {
@@ -61,7 +80,20 @@ app.get('/alterar_perfil', requerLogin, perfilController.mostrarPerfil)
 app.get('/home', requerLogin, mainController.mostrarMain);
 
 app.get('/materiais', requerLogin, (req, res) => {
-    res.sendFile(path.join(__dirname, 'view', 'materiais.html'));
+    Usuario.findByPk(req.session.usuarioId).then(usuario => {
+        let html = fs.readFileSync(path.join(__dirname, 'view', 'materiais.html'), 'utf8');
+        
+        // A MÁGICA AQUI: O código tenta todas as variações possíveis de nome que o seu banco possa ter!
+        let foto = usuario ? (usuario.fotoPerfil || usuario.fotoperfil || usuario.foto_perfil || usuario.foto || './imagens/imagem8.jpg') : './imagens/imagem8.jpg';
+        let nome = usuario ? (usuario.Nome || usuario.nome || 'Usuário') : 'Usuário';
+
+        html = html.replace(/{{FOTO}}/g, foto).replace(/{{NOME}}/g, nome).replace(/{{SAUDACAO}}/g, 'Meus Materiais');
+        
+        res.send(html);
+    }).catch(err => {
+        console.error(err);
+        res.sendFile(path.join(__dirname, 'view', 'materiais.html'));
+    });
 });
 
 app.get('/upload', requerLogin, (req, res) => {
@@ -77,7 +109,8 @@ app.get('/logout', (req, res) => {
         res.redirect('/carregando?to=/login&msg=Até%20logo!');
     });
 });
-
+app.get('/api/meus_projetos', requerLogin, projetoController.listarMeusProjetos);
+app.get('/api/todos_projetos', requerLogin, projetoController.listarTodosProjetos);
 app.post('/cadastrar_usuario', cadastroController.processarCadastro);
 app.post('/login', authController.processarLogin);
 app.post('/esqueci_senha', authController.processarEsqueciSenha);
@@ -86,7 +119,7 @@ app.post('/atualizar_perfil', (req, res, next) => {
     console.log('[POST /atualizar_perfil] body:', req.body, 'file:', req.file);
     next();
 }, requerLogin, perfilController.atualizarPerfil);
-
+app.post('/enviar_projeto', requerLogin, upload.single('capa'), projetoController.enviarProjeto);
 sequelize.sync({ alter: true })
     .then(() => {
         console.log('Base de dados conectada e pronta!');
