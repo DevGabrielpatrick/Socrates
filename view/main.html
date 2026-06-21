@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materiais</title>
+
+    <link rel="stylesheet" href="./Estilo/main.css">
+       <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
+
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <img src="./imagens/socrates.png" alt="Logo">
+        </div>
+
+        <button class="menu-btn">
+    <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav>
+            
+     <a href="main.html" class="ativo" title="Home">
+        <img src="./imagens/Imagem1.png" alt="Dashboard">
+    </a>
+
+    <a href="pesquisa.html" title="Pesquisar">
+        <img src="./imagens/imagem5.png" alt="Dashboard">
+    </a>
+
+    <a href="materiais.html" title="Materiais">
+        <img src="./imagens/imagem6.png" alt="Materiais">
+    </a>
+
+    <a href="upload.html" title="Upload">
+       <img src="./imagens/imagem7.png" alt="Adicionar conteudo">
+    </a>
+
+    <a href="perfil.html" title="Perfil">
+        <img src="./imagens/Imagem2.png" alt="Perfil">
+    </a>
+        </nav>
+
+        <div class="logout">
+    <a href="login.html" title="Sair">
+        <img src="./imagens/Imagem3.png" alt="Perfil">
+    </a>
+</div>
+    </aside>
+
+    <main class="conteudo">
+
+        <header>
+
+            <div class="pesquisa">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                type="text"
+                placeholder="Pesquisar Material">
+            </div>
+
+            <img
+            src="./imagens/imagem8.jpg"
+            alt="Usuário"
+            class="avatar">
+
+        </header>
+
+        <section class="topo">
+
+            <h2>Materiais disponíveis</h2>
+
+            <div class="filtros">
+                <button class="ativo">Tudo</button>
+                <button>Vídeos</button>
+                <button>Apostilas</button>
+            </div>
+
+        </section>
+
+        <section class="cards">
+
+            <div class="card">
+
+                <img
+                src="./imagens/Imagem4.png"
+                alt="Node">
+
+                <div class="autor">
+                    <img
+                    src="./imagens/imagem8.jpg"
+                    alt="">
+                    <span>Aluno(a): Maria Silva</span>
+                </div>
+
+                <h3>Curso de Node JS</h3>
+
+                <div class="info">
+                    <span>Dificuldade</span>
+                    <span>Média</span>
+                </div>
+
+                <div class="info">
+                    <span>Arquivos</span>
+                    <span>1</span>
+                </div>
+
+                <div class="info">
+                    <span>Tipo</span>
+                    <span>PDF</span>
+                </div>
+
+                <button class="btn-card">
+                    Visualizar
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <img
+                src="./imagens/Imagem4.png"
+                alt="Node">
+
+                <div class="autor">
+                    <img
+                    src="./imagens/imagem8.jpg"
+                    alt="">
+                    <span>Aluno(a): Maria Silva</span>
+                </div>
+
+                <h3>Curso de Node JS</h3>
+
+                <div class="info">
+                    <span>Dificuldade</span>
+                    <span>Média</span>
+                </div>
+
+                <div class="info">
+                    <span>Arquivos</span>
+                    <span>1</span>
+                </div>
+
+                <div class="info">
+                    <span>Tipo</span>
+                    <span>PDF</span>
+                </div>
+
+                <button class="btn-card">
+                    Visualizar
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <img
+                src="./imagens/Imagem4.png"
+                alt="Node">
+
+                <div class="autor">
+                    <img
+                    src="./imagens/imagem8.jpg"
+                    alt="">
+                    <span>Aluno(a): Maria Silva</span>
+                </div>
+
+                <h3>Curso de Node JS</h3>
+
+                <div class="info">
+                    <span>Dificuldade</span>
+                    <span>Média</span>
+                </div>
+
+                <div class="info">
+                    <span>Arquivos</span>
+                    <span>1</span>
+                </div>
+
+                <div class="info">
+                    <span>Tipo</span>
+                    <span>PDF</span>
+                </div>
+
+                <button class="btn-card">
+                    Visualizar
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+<!-- necessario pro sidebar funcionar na forma responsiva, sem poluição visual-->
+<script>
+const botao = document.querySelector(".menu-btn");
+const sidebar = document.querySelector(".sidebar");
+
+botao.addEventListener("click", () => {
+    sidebar.classList.toggle("ativo");
+});
+</script>
+</body>
+</html>

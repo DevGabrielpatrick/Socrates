@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração de Perfil</title>
+
+    <link rel="stylesheet" href="./Estilo/main.css">
+    <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<aside class="sidebar">
+
+        <div class="logo">
+            <img src="./imagens/socrates.png" alt="Logo">
+        </div>
+
+        <button class="menu-btn">
+    <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav>
+            
+     <a href="main.html" class="ativo" title="Home">
+        <img src="./imagens/Imagem1.png" alt="Dashboard">
+    </a>
+
+    <a href="pesquisa.html" title="Pesquisar">
+        <img src="./imagens/imagem5.png" alt="Dashboard">
+    </a>
+
+    <a href="materiais.html" title="Materiais">
+        <img src="./imagens/imagem6.png" alt="Materiais">
+    </a>
+
+    <a href="upload.html" title="Upload">
+       <img src="./imagens/imagem7.png" alt="Adicionar conteudo">
+    </a>
+
+    <a href="perfil.html" title="Perfil">
+        <img src="./imagens/Imagem2.png" alt="Perfil">
+    </a>
+        </nav>
+
+        <div class="logout">
+    <a href="login.html" title="Sair">
+        <img src="./imagens/Imagem3.png" alt="Perfil">
+    </a>
+</div>
+    </aside>
+
+<main class="conteudo">
+
+    <section class="upload-container">
+
+        <h2>Criar novo projeto</h2>
+
+        <div class="upload-card">
+
+            <!-- CAPA -->
+            <div class="capa-upload">
+                <span>Capa do projeto</span>
+
+                <div class="drop-area">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+            </div>
+
+            <!-- FORM -->
+            <form class="form-upload">
+
+                <label>Tipo de arquivo</label>
+                <select>
+                    <option>PDF</option>
+                    <option>Vídeo</option>
+                    <option>Imagem</option>
+                </select>
+
+                <label>Nome do projeto</label>
+                <input type="text" placeholder="Digite o nome do projeto">
+
+                <label>Nível de dificuldade</label>
+                <select>
+                    <option>Fácil</option>
+                    <option>Médio</option>
+                    <option>Difícil</option>
+                </select>
+
+                <label>Descrição</label>
+                <textarea placeholder="Descreva o projeto..."></textarea>
+
+                <button type="submit">Enviar</button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+<script>
+    (function () {
+        var params = new URLSearchParams(window.location.search);
+        var msg = document.getElementById('mensagem');
+        if (!msg) return;
+
+        if (params.get('sucesso') === '1') {
+            msg.style.display = 'block';
+            msg.style.background = '#1f7a3a';
+            msg.style.color = 'white';
+            msg.textContent = 'Perfil atualizado com sucesso!';
+        } else if (params.get('erro')) {
+            var erros = {
+                'campos_obrigatorios': 'Nome e email são obrigatórios.',
+                'email_duplicado': 'Este email já está em uso por outra conta.',
+                'upload_falhou': 'Falha no upload da foto (tamanho máximo 5 MB, tipos: JPG, PNG, GIF, WEBP).',
+                '1': 'Erro ao atualizar. Tente novamente.'
+            };
+            msg.style.display = 'block';
+            msg.style.background = '#7a1f1f';
+            msg.style.color = 'white';
+            msg.textContent = erros[params.get('erro')] || 'Erro desconhecido.';
+        }
+    })();
+</script>
+
+<script src="./interceptor.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,507 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#131129;
+    min-height:100vh;
+    display:flex;
+    color:white;
+}
+
+.sidebar{
+    width: 90px;
+    height: 100vh;
+    background: #1D1A3D;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 15px;
+
+    position: fixed;   /* <- fixa na tela */
+    top: 0;
+    left: 0;
+}
+
+.upload-container{
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.upload-container h2{
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.upload-card{
+    background:#1D1A3D;
+    padding: 30px;
+    border-radius: 20px;
+
+    display: flex;
+    gap: 40px;
+}
+
+/* CAPA */
+.capa-upload{
+    flex: 1;
+}
+
+.capa-upload span{
+    display:block;
+    margin-bottom:15px;
+    color:#cfcfe6;
+}
+
+.drop-area{
+    height: 180px;
+    background:#131129;
+    border: 2px dashed #6F52FF;
+    border-radius: 15px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size: 40px;
+    color:#6F52FF;
+}
+
+/* FORM */
+.form-upload{
+    flex: 2;
+    display:flex;
+    flex-direction:column;
+    gap: 12px;
+}
+
+.form-upload label{
+    font-size: 14px;
+    color:#cfcfe6;
+}
+
+.form-upload input,
+.form-upload select,
+.form-upload textarea{
+    background:#131129;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    color:white;
+    outline:none;
+}
+
+.form-upload textarea{
+    min-height: 120px;
+    resize: none;
+}
+
+/* botão */
+.form-upload button{
+    margin-top: 10px;
+    padding: 14px;
+    border:none;
+    border-radius: 12px;
+
+    background: linear-gradient(to right,#6F52FF,#8B67FF);
+    color:white;
+    cursor:pointer;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px){
+    .upload-card{
+        flex-direction: column;
+    }
+
+    .drop-area{
+        height: 150px;
+    }
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 50px;
+}
+
+.logo img{
+    width: 40px;
+    height: auto;
+
+    filter: brightness(0) saturate(100%)
+            invert(39%) sepia(96%)
+            saturate(2907%) hue-rotate(235deg)
+            brightness(102%) contrast(101%);
+}
+
+nav{
+    display: flex;
+    flex-direction: column;
+    gap: 35px; 
+}
+
+.logout{
+    margin-top: auto;
+    margin-bottom: 30px;
+}
+
+nav a{
+    color:#8c8caa;
+    text-decoration:none;
+    font-size:22px;
+}
+
+nav a i{
+    color:inherit;
+}
+
+nav a:hover{
+    color:#6F52FF;
+}
+
+nav a.ativo{
+    color:#6F52FF;
+}
+
+nav img,
+.logout img{
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.logout a{
+    color:#8c8caa;
+    font-size:22px;
+}
+
+.logout a:hover{
+    color:#6F52FF;
+}
+
+
+nav img,
+.logout img{
+    width:24px;
+    height:24px;
+    transition:0.3s;
+    filter: grayscale(100%);
+}
+
+nav a:hover img,
+.logout a:hover img{
+    filter: brightness(0) saturate(100%)
+            invert(39%) sepia(96%)
+            saturate(2907%) hue-rotate(235deg)
+            brightness(102%) contrast(101%);
+}
+
+nav a.ativo img{
+    filter: brightness(0) saturate(100%)
+            invert(39%) sepia(96%)
+            saturate(2907%) hue-rotate(235deg)
+            brightness(102%) contrast(101%);
+}
+
+
+.conteudo{
+    flex: 1;
+    padding: 40px 60px;
+    margin-left: 90px;
+}
+
+/* hearder */
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.sem-envio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.pesquisa{
+    width:400px;
+    background:#1D1A3D;
+    border-radius:12px;
+    padding:15px 20px;
+
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.pesquisa input{
+    background:none;
+    border:none;
+    color:white;
+    width:100%;
+    outline:none;
+}
+
+.avatar{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+}
+
+/* topo */
+
+.topo{
+    margin-top:50px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.topo h2{
+    font-size:32px;
+}
+
+.filtros{
+    display:flex;
+    gap:15px;
+}
+
+.filtros button{
+    border:none;
+    background:none;
+    color:white;
+    cursor:pointer;
+}
+
+.filtros .ativo{
+    background:#6F52FF;
+    padding:8px 20px;
+    border-radius:20px;
+}
+
+/* Cards */
+
+.cards{
+    margin-top:40px;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:#1D1A3D;
+    border-radius:20px;
+    padding:25px;
+}
+
+.card > img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:15px;
+    background:white;
+}
+
+.autor{
+    margin-top:20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.autor img{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+}
+
+.card h3{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.info{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.btn-card{
+    margin-top:20px;
+    width:100%;
+    border:none;
+    padding:15px;
+    border-radius:12px;
+
+    background:linear-gradient(
+        to right,
+        #6F52FF,
+        #8B67FF
+    );
+
+    color:white;
+    cursor:pointer;
+}
+
+
+
+/* Responsivo */
+@media (max-width: 768px){
+
+    body{
+        flex-direction: column;
+    }
+
+   
+    .sidebar{
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+    }
+
+    .logo{
+        margin: 0;
+    }
+
+    nav{
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .logout{
+        margin: 0;
+    }
+
+    .conteudo{
+        padding: 20px;
+    }
+
+    /* Header */
+    header{
+        flex-direction: column;
+        gap: 20px;
+        align-items: stretch;
+    }
+
+    .pesquisa{
+        width: 100%;
+    }
+
+    /* titulo e filtros */
+    .topo{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .topo h2{
+        font-size: 24px;
+    }
+
+    .filtros{
+        flex-wrap: wrap;
+    }
+
+    
+    .cards{
+        grid-template-columns: 1fr;
+    }
+
+    .card > img{
+        height: auto;
+    }
+}
+
+
+.menu-btn{
+    display: none;
+}
+
+/* suprir os icones laterais no icone de 3 barras */
+@media (max-width: 768px){
+
+    body{
+        flex-direction: column;
+    }
+
+    .sidebar{
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        padding: 20px;
+    }
+
+    .logo{
+        margin: 0;
+    }
+
+    .menu-btn{
+        display: block;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 28px;
+        cursor: pointer;
+    }
+
+    nav,
+    .logout{
+        display: none;
+    }
+
+    .sidebar.ativo nav,
+    .sidebar.ativo .logout{
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        position: absolute;
+        top: 90px;
+        left: 0;
+
+        width: 100%;
+        background: #1D1A3D;
+        padding: 20px;
+        z-index: 100;
+    }
+
+    .conteudo{
+        padding: 20px;
+    }
+
+    .cards{
+        grid-template-columns: 1fr;
+    }
+
+    .pesquisa{
+        width: 100%;
+    }
+
+    header{
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .topo{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+}
