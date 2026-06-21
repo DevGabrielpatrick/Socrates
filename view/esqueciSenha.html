@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esqueci a senha</title>
+    <link rel="stylesheet" href="./Estilo/login.css">
+    <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="circulo">
+        <img src="./imagens/socrates.png" alt="Logo">
+    </div>
+
+    <div class="container">
+
+        <!-- ESTADO 1: pedir e-mail (também mostra erros vindos do controller) -->
+        <div id="estado-email">
+            <h1>Esqueci a senha</h1>
+
+            <p style="color:white; font-size:18px; margin-bottom:25px; text-align:center;">
+                Informe o e-mail cadastrado. Vamos gerar uma senha temporária para você entrar e definir uma nova.
+            </p>
+
+            <form action="/esqueci_senha" method="POST">
+
+                <div class="campo">
+                    <label for="email">E-mail cadastrado:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <button type="submit">Gerar senha temporária</button>
+
+            </form>
+
+            <div style="text-align:center; margin-top:20px;">
+                <a href="/login" style="color:#c0c0ff; font-size:17px; text-decoration:none;">Voltar para o login</a>
+            </div>
+
+            <div id="aviso-erro" class="aviso" hidden></div>
+        </div>
+
+        <!-- ESTADO 2: mostrar a senha temporária gerada -->
+        <div id="estado-temp" hidden>
+            <h1 style="font-size:60px;">Senha temporária</h1>
+
+            <div class="senha-temp-box">
+                <div class="rotulo">
+                    Gerada para: <strong id="email-mostrado"></strong>
+                </div>
+
+                <div class="senha-wrapper" style="display:inline-block; position:relative;">
+                    <span class="senha-temp-valor" id="senha-temp-valor">--------</span>
+                </div>
+
+                <div class="alerta">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Anote esta senha. Use-a para entrar. O app vai pedir que você defina uma nova senha imediatamente.
+                </div>
+
+                <a href="/carregando?to=/login&msg=Use%20a%20senha%20tempor%C3%A1ria" class="btn-ir-login">
+                    Ir para o login
+                </a>
+            </div>
+
+            <div style="text-align:center; margin-top:20px;">
+                <a href="/esqueci_senha" style="color:#c0c0ff; font-size:16px; text-decoration:none;">Gerar outra senha</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./interceptor.js"></script>
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const estadoEmail = document.getElementById('estado-email');
+            const estadoTemp = document.getElementById('estado-temp');
+            const avisoErro = document.getElementById('aviso-erro');
+
+            const erros = {
+                email_nao_encontrado: 'Se este e-mail estiver cadastrado, uma senha temporária será gerada. Verifique e tente novamente.',
+                erro_no_servidor: 'Ocorreu um erro no servidor. Tente novamente em instantes.'
+            };
+
+            const temp = params.get('temp');
+            const email = params.get('email');
+
+            if (temp && email) {
+                // Estado 2: mostrar senha temporária
+                estadoEmail.hidden = true;
+                estadoTemp.hidden = false;
+                document.getElementById('email-mostrado').textContent = email;
+                document.getElementById('senha-temp-valor').textContent = temp;
+            } else {
+                // Estado 1: formulário de e-mail, com possíveis avisos
+                const erro = params.get('erro');
+                if (erro && erros[erro]) {
+                    avisoErro.textContent = erros[erro];
+                    avisoErro.hidden = false;
+                    avisoErro.dataset.tipo = erro;
+                }
+            }
+        })();
+    </script>
+
+</body>
+</html>

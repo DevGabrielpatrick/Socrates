@@ -50,6 +50,12 @@ app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, 'view', 'cadastrousuario.html'));
 });
 
+app.get('/esqueci_senha', (req, res) => {
+    res.sendFile(path.join(__dirname, 'view', 'esqueciSenha.html'));
+});
+
+app.get('/trocar_senha_obrigatoria', requerLogin, authController.mostrarTrocaSenhaObrigatoria);
+
 app.get('/alterar_perfil', requerLogin, perfilController.mostrarPerfil)
 
 app.get('/home', requerLogin, mainController.mostrarMain);
@@ -74,12 +80,14 @@ app.get('/logout', (req, res) => {
 
 app.post('/cadastrar_usuario', cadastroController.processarCadastro);
 app.post('/login', authController.processarLogin);
+app.post('/esqueci_senha', authController.processarEsqueciSenha);
+app.post('/trocar_senha_obrigatoria', requerLogin, authController.processarTrocaObrigatoria);
 app.post('/atualizar_perfil', (req, res, next) => {
     console.log('[POST /atualizar_perfil] body:', req.body, 'file:', req.file);
     next();
 }, requerLogin, perfilController.atualizarPerfil);
 
-sequelize.sync()
+sequelize.sync({ alter: true })
     .then(() => {
         console.log('Base de dados conectada e pronta!');
         app.listen(PORT, () => {

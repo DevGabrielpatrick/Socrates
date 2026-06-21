@@ -23,6 +23,11 @@ const Usuario = DB.define('Usuario', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    senhaTemporaria: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
     perfil: {
         type: Sequelize.STRING,
         allowNull: false

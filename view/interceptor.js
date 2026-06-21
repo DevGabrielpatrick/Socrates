@@ -4,7 +4,7 @@
 
 (function () {
     // Rotas internas que devem passar pelo loading
-    const ROTAS_INTERNAS = ['/home', '/alterar_perfil', '/cadastro', '/login', '/logout', '/materiais', '/upload', '/pesquisa'];
+    const ROTAS_INTERNAS = ['/home', '/alterar_perfil', '/cadastro', '/login', '/logout', '/materiais', '/upload', '/pesquisa', '/esqueci_senha', '/trocar_senha_obrigatoria'];
 
     function deveInterceptar(href) {
         if (!href) return false;

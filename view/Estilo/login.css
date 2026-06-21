@@ -211,8 +211,131 @@ button:hover {
     color: #ffe9c2;
 }
 
+.aviso[data-tipo="email_nao_encontrado"] {
+    background-color: #4a3a1f;
+    border-color: #ffb84d;
+    color: #ffe9c2;
+}
+
 .aviso[data-tipo="erro_no_servidor"] {
     background-color: #4a1f1f;
     border-color: #ff6b6b;
     color: #ffd6d6;
+}
+
+.aviso[data-tipo="senha_temporaria"],
+.aviso[data-tipo="senha_temp_gerada"] {
+    background-color: #1f3a4a;
+    border-color: #4da6ff;
+    color: #d6ecff;
+}
+
+.aviso[data-tipo="senha_curta"],
+.aviso[data-tipo="senhas_diferentes_troca"] {
+    background-color: #4a1f1f;
+    border-color: #ff6b6b;
+    color: #ffd6d6;
+}
+
+.aviso[data-tipo="senha_trocada"] {
+    background-color: #1f4a2a;
+    border-color: #4dff7a;
+    color: #d6ffd6;
+}
+
+/* Wrapper do campo de senha + botão de olho */
+.senha-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.senha-wrapper input {
+    padding-right: 55px; /* espaço para o botão de olho não cobrir o texto */
+}
+
+.olho-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    border: none;
+    color: #c0c0ff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.olho-btn:hover {
+    color: #6f52ff;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.olho-btn:focus {
+    outline: none;
+    color: #6f52ff;
+}
+
+/* Senha temporária em destaque */
+.senha-temp-box {
+    margin-top: 24px;
+    padding: 24px;
+    border-radius: 20px;
+    background-color: #1d1a3d;
+    border: 2px solid #6f52ff;
+    text-align: center;
+    color: white;
+}
+
+.senha-temp-box .rotulo {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #c0c0ff;
+}
+
+.senha-temp-box .senha-temp-valor {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 32px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #0f0b33;
+    padding: 14px 20px;
+    border-radius: 12px;
+    display: inline-block;
+    user-select: all;
+}
+
+.senha-temp-box .alerta {
+    margin-top: 18px;
+    font-size: 15px;
+    color: #ffe9c2;
+    background-color: #4a3a1f;
+    border: 1px solid #ffb84d;
+    border-radius: 10px;
+    padding: 10px 14px;
+}
+
+.senha-temp-box .btn-ir-login {
+    margin-top: 22px;
+    display: inline-block;
+    text-decoration: none;
+    width: auto;
+    padding: 0 32px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 25px;
+    background: linear-gradient(to right, #6f52ff, #8b67ff);
+    color: white;
+    font-size: 17px;
+    transition: 0.3s;
+}
+
+.senha-temp-box .btn-ir-login:hover {
+    transform: scale(1.02);
 }

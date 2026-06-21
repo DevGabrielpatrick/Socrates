@@ -107,15 +107,19 @@
 
             <div class="campo">
 
-                <label>Trocar senha (deixe em branco para manter a atual)</label>
+                <label for="senha">Trocar senha (deixe em branco para manter a atual)</label>
 
-                <input
-                    type="password"
-                    name="senha"
-                    placeholder="••••••"
-                >
-
-
+                <div class="senha-wrapper">
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        placeholder="••••••"
+                    >
+                    <button type="button" class="olho-btn" data-alvo="senha" aria-label="Mostrar senha">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
 
             </div>
 
@@ -166,6 +170,27 @@
             msg.style.color = 'white';
             msg.textContent = erros[params.get('erro')] || 'Erro desconhecido.';
         }
+
+        // Toggle do botão de olho (mesmo padrão do login.html)
+        document.querySelectorAll('.olho-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var alvoId = btn.getAttribute('data-alvo');
+                var input = document.getElementById(alvoId);
+                if (!input) return;
+                var icone = btn.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icone.classList.remove('fa-eye');
+                    icone.classList.add('fa-eye-slash');
+                    btn.setAttribute('aria-label', 'Ocultar senha');
+                } else {
+                    input.type = 'password';
+                    icone.classList.remove('fa-eye-slash');
+                    icone.classList.add('fa-eye');
+                    btn.setAttribute('aria-label', 'Mostrar senha');
+                }
+            });
+        });
     })();
 </script>
 
