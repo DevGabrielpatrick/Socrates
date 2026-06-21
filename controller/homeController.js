@@ -5,7 +5,6 @@ const Usuario = require('../model/Usuario');
 const HOME_PATH = path.join(__dirname, '..', 'view', 'home.html');
 let homeCache = null;
 
-// Lê o HTML uma vez e mantém em memória (pequena otimização)
 function getHomeHtml() {
     if (!homeCache) {
         homeCache = fs.readFileSync(HOME_PATH, 'utf8');
@@ -13,7 +12,6 @@ function getHomeHtml() {
     return homeCache;
 }
 
-// Escapa atributos HTML (evita quebra com nomes que têm aspas)
 function esc(value) {
     if (value === null || value === undefined) return '';
     return String(value)
@@ -23,7 +21,6 @@ function esc(value) {
         .replace(/>/g, '&gt;');
 }
 
-// GET /home — renderiza a home com nome e foto do usuário logado
 function mostrarHome(req, res) {
     const usuarioId = req.session.usuarioId;
 
@@ -31,7 +28,6 @@ function mostrarHome(req, res) {
         .then((usuario) => {
             if (!usuario) return res.redirect('/logout');
 
-            // Prioriza a foto da sessão (atualizada após upload) e cai pra do banco
             const fotoUsuario = req.session.usuarioFoto || usuario.foto || 'https://i.pravatar.cc/80';
             const saudacao = gerarSaudacao();
 
@@ -48,7 +44,6 @@ function mostrarHome(req, res) {
         });
 }
 
-// Gera saudação dinâmica baseada no horário local do servidor
 function gerarSaudacao() {
     const hora = new Date().getHours();
 

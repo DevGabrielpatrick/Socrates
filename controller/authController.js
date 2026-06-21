@@ -1,12 +1,12 @@
-const Usuario = require('../model/Usuario'); // Puxa a tabela do banco
+const Usuario = require('../model/Usuario');
 const bcrypt = require('bcrypt');
 
 function processarLogin(req, res) {
-    // Pega o que o usuário digitou na tela
+   
     const emailDigitado = req.body.email;
     const senhaDigitada = req.body.senha;
 
-    // Vai no banco de dados e procura alguém com esse e-mail
+
     Usuario.findOne({ where: { email: emailDigitado } })
         .then((usuarioEncontrado) => {
 
@@ -15,7 +15,6 @@ function processarLogin(req, res) {
                 return res.redirect('/login?erro=usuario_nao_encontrado');
             }
 
-            // Compara a senha digitada com o hash armazenado
             return bcrypt.compare(senhaDigitada, usuarioEncontrado.senha)
                 .then((senhaValida) => {
 

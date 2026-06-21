@@ -4,13 +4,11 @@ const multer = require('multer');
 const Usuario = require('../model/Usuario');
 const bcrypt = require('bcrypt');
 
-// Pasta onde as fotos de perfil serão salvas
 const UPLOAD_DIR = path.join(__dirname, '..', 'view', 'imagens', 'perfis');
 if (!fs.existsSync(UPLOAD_DIR)) {
     fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
-// Configuração do Multer para upload de fotos
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, UPLOAD_DIR),
     filename: (req, file, cb) => {
@@ -21,14 +19,13 @@ const storage = multer.diskStorage({
 });
 const upload = multer({
     storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+    limits: { fileSize: 5 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
         const ok = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file.mimetype);
         cb(ok ? null : new Error('Tipo de arquivo não suportado'), ok);
     }
 });
 
-// GET /alterar_perfil — renderiza a página com os dados do usuário
 function mostrarPerfil(req, res) {
     const usuarioId = req.session.usuarioId;
 
@@ -39,7 +36,6 @@ function mostrarPerfil(req, res) {
             const htmlPath = path.join(__dirname, '..', 'view', 'alterarPerfil.html');
             let html = fs.readFileSync(htmlPath, 'utf8');
 
-            // Injeta os dados reais do usuário no HTML
             html = html
                 .replace('value="Josefina da Silva"', `value="${esc(usuario.nome)}"`)
                 .replace('value="josefina57@gmail.com"', `value="${esc(usuario.email)}"`)
@@ -54,9 +50,7 @@ function mostrarPerfil(req, res) {
         });
 }
 
-// POST /atualizar_perfil — atualiza dados e/ou foto
 function atualizarPerfil(req, res) {
-    // Middleware do multer executado manualmente dentro da função
     upload.single('foto')(req, res, (err) => {
         if (err) {
             console.error('Erro no upload:', err);
@@ -79,9 +73,8 @@ function atualizarPerfil(req, res) {
                 usuario.nome = novoNome;
                 usuario.email = novoEmail;
 
-                // Se enviou foto nova, salva o caminho público
                 if (req.file) {
-                    // apaga a foto antiga (se for local) — exceto a padrão do pravatar
+
                     if (usuario.foto && usuario.foto.startsWith('/imagens/perfis/')) {
                         const antigo = path.join(__dirname, '..', 'view', usuario.foto);
                         if (fs.existsSync(antigo)) {
@@ -91,7 +84,6 @@ function atualizarPerfil(req, res) {
                     usuario.foto = `/imagens/perfis/${req.file.filename}`;
                 }
 
-                // Trocar senha (somente se preenchida)
                 if (novaSenha.length > 0) {
                     return bcrypt.hash(novaSenha, 10).then((hash) => {
                         usuario.senha = hash;
@@ -118,7 +110,6 @@ function atualizarPerfil(req, res) {
     });
 }
 
-// Escapa atributos HTML para evitar quebra/bug de XSS em nomes com aspas
 function esc(value) {
     if (value === null || value === undefined) return '';
     return String(value)
