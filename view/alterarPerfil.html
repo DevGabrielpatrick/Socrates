@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuração de Perfil</title>
 
+    <link rel="stylesheet" href="./Estilo/main.css">
     <link rel="stylesheet" href="./Estilo/perfil.css">
     <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
 
@@ -13,45 +14,47 @@
 </head>
 <body>
 
-<div class="sidebar">
+<aside class="sidebar">
 
-    <div class="logo">
-        <i class="fa-solid fa-graduation-cap"></i>
-    </div>
+        <div class="logo">
+            <img src="./imagens/socrates.png" alt="Logo">
+        </div>
 
-    <nav>
+        <button class="menu-btn">
+    <i class="fa-solid fa-bars"></i>
+        </button>
 
-        <a href="/home">
-            <i class="fa-solid fa-table-cells-large"></i>
-        </a>
+        <nav>
 
-        <a href="#">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </a>
+     <a href="/home" title="Home">
+        <img src="./imagens/Imagem1.png" alt="Dashboard">
+    </a>
 
-        <a href="#">
-            <i class="fa-regular fa-file-lines"></i>
-        </a>
+    <a href="/pesquisa" title="Pesquisar">
+        <img src="./imagens/imagem5.png" alt="Dashboard">
+    </a>
 
-        <a href="#">
-            <i class="fa-solid fa-folder-open"></i>
-        </a>
+    <a href="/materiais" title="Materiais">
+        <img src="./imagens/imagem6.png" alt="Materiais">
+    </a>
 
-        <a href="/alterar_perfil" class="active">
-            <i class="fa-regular fa-circle-user"></i>
-        </a>
+    <a href="/upload" title="Upload">
+       <img src="./imagens/imagem7.png" alt="Adicionar conteudo">
+    </a>
 
-    </nav>
+    <a href="/alterar_perfil" class="ativo" title="Perfil">
+        <img src="./imagens/Imagem2.png" alt="Perfil">
+    </a>
+        </nav>
 
-    <div class="logout">
-        <a href="/logout">
-            <i class="fa-solid fa-right-from-bracket"></i>
-        </a>
-    </div>
-
+        <div class="logout">
+    <a href="/logout" title="Sair">
+        <img src="./imagens/Imagem3.png" alt="Perfil">
+    </a>
 </div>
+    </aside>
 
-<main>
+<main class="conteudo">
 
     <h2>Configuração de perfil</h2>
 

@@ -5,7 +5,7 @@ const sequelize = require('./DB');
 const cadastroController = require('./controller/cadastroController');
 const authController = require('./controller/authController');
 const perfilController = require('./controller/perfilController');
-const homeController = require('./controller/homeController');
+const mainController = require('./controller/mainController');
 
 const app = express();
 const PORT = 3000;
@@ -53,7 +53,19 @@ app.get('/cadastro', (req, res) => {
 
 app.get('/alterar_perfil', requerLogin, perfilController.mostrarPerfil)
 
-app.get('/home', requerLogin, homeController.mostrarHome);
+app.get('/home', requerLogin, mainController.mostrarMain);
+
+app.get('/materiais', requerLogin, (req, res) => {
+    res.sendFile(path.join(__dirname, 'view', 'materiais.html'));
+});
+
+app.get('/upload', requerLogin, (req, res) => {
+    res.sendFile(path.join(__dirname, 'view', 'upload.html'));
+});
+
+app.get('/pesquisa', requerLogin, (req, res) => {
+    res.sendFile(path.join(__dirname, 'view', 'pesquisa.html'));
+});
 
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {

@@ -4,7 +4,7 @@
 
 (function () {
     // Rotas internas que devem passar pelo loading
-    const ROTAS_INTERNAS = ['/home', '/alterar_perfil', '/cadastro', '/login', '/logout'];
+    const ROTAS_INTERNAS = ['/home', '/alterar_perfil', '/cadastro', '/login', '/logout', '/materiais', '/upload', '/pesquisa'];
 
     function deveInterceptar(href) {
         if (!href) return false;
@@ -14,9 +14,11 @@
         if (href.startsWith('tel:')) return false;
         if (href.startsWith('javascript:')) return false;
         if (href.startsWith('http://') || href.startsWith('https://')) return false;
-        // Só intercepta se for uma das rotas conhecidas
+        // Normaliza: aceita tanto "/materiais" quanto "materiais.html" (link relativo)
         const path = href.split('?')[0];
-        return ROTAS_INTERNAS.includes(path);
+        const comBarra = path.startsWith('/') ? path : '/' + path;
+        const semHtml = comBarra.replace(/\.html$/, '');
+        return ROTAS_INTERNAS.includes(comBarra) || ROTAS_INTERNAS.includes(semHtml);
     }
 
     function montarLoading(href) {
