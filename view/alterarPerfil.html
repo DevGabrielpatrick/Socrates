@@ -62,7 +62,7 @@
 
         <div id="mensagem" style="display:none; margin-bottom:20px; padding:12px; border-radius:10px; text-align:center;"></div>
 
-        <form action="/atualizar_perfil" method="POST" enctype="multipart/form-data">
+        <form action="/atualizar_perfil" method="POST" enctype="multipart/form-data" id="form-perfil">
 
             <div class="foto-area">
 
@@ -71,11 +71,12 @@
                 <div class="foto-wrapper">
 
                     <img
+                        id="foto-preview"
                         src="https://i.pravatar.cc/250"
                         alt="Perfil"
                     >
 
-                    <input type="file" name="foto">
+                    <input type="file" name="foto" accept="image/png, image/jpeg, image/gif, image/webp">
 
                 </div>
 
@@ -89,6 +90,7 @@
                     type="text"
                     name="nome"
                     value="Josefina da Silva"
+                    required
                 >
 
             </div>
@@ -101,6 +103,43 @@
                     type="email"
                     name="email"
                     value="josefina57@gmail.com"
+                    required
+                >
+
+            </div>
+
+            <div class="campo">
+
+                <label for="perfil">Perfil</label>
+                <select id="perfil" name="perfil" required class="select-perfil">
+                    <option value="aluno">Aluno</option>
+                    <option value="professor">Professor</option>
+                </select>
+
+            </div>
+
+            <div class="campo">
+
+                <label for="area">Área de Conhecimento</label>
+
+                <input
+                    type="text"
+                    id="area"
+                    name="area"
+                    placeholder="Ex.: Ciências Exatas, Humanas, Biológicas..."
+                >
+
+            </div>
+
+            <div class="campo" id="campo-curso">
+
+                <label for="curso">Curso (caso seja aluno)</label>
+
+                <input
+                    type="text"
+                    id="curso"
+                    name="curso"
+                    placeholder="Ex.: Engenharia de Computação"
                 >
 
             </div>
@@ -115,8 +154,28 @@
                         id="senha"
                         name="senha"
                         placeholder="••••••"
+                        autocomplete="new-password"
                     >
                     <button type="button" class="olho-btn" data-alvo="senha" aria-label="Mostrar senha">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="campo">
+
+                <label for="confirmar-senha">Confirmar nova senha</label>
+
+                <div class="senha-wrapper">
+                    <input
+                        type="password"
+                        id="confirmar-senha"
+                        name="confirmarSenha"
+                        placeholder="••••••"
+                        autocomplete="new-password"
+                    >
+                    <button type="button" class="olho-btn" data-alvo="confirmar-senha" aria-label="Mostrar senha">
                         <i class="fa-solid fa-eye"></i>
                     </button>
                 </div>
@@ -160,8 +219,10 @@
             msg.textContent = 'Perfil atualizado com sucesso!';
         } else if (params.get('erro')) {
             var erros = {
-                'campos_obrigatorios': 'Nome e email são obrigatórios.',
+                'campos_obrigatorios': 'Nome, email e perfil são obrigatórios.',
                 'email_duplicado': 'Este email já está em uso por outra conta.',
+                'senhas_nao_conferem': 'A senha e a confirmação não conferem.',
+                'senha_curta': 'A nova senha deve ter pelo menos 6 caracteres.',
                 'upload_falhou': 'Falha no upload da foto (tamanho máximo 5 MB, tipos: JPG, PNG, GIF, WEBP).',
                 '1': 'Erro ao atualizar. Tente novamente.'
             };
@@ -191,6 +252,57 @@
                 }
             });
         });
+
+        // Pré-visualização da foto escolhida antes do upload
+        var inputFoto = document.querySelector('input[type="file"][name="foto"]');
+        var preview = document.getElementById('foto-preview');
+        if (inputFoto && preview) {
+            inputFoto.addEventListener('change', function () {
+                var arquivo = inputFoto.files && inputFoto.files[0];
+                if (!arquivo) return;
+                var reader = new FileReader();
+                reader.onload = function (e) { preview.src = e.target.result; };
+                reader.readAsDataURL(arquivo);
+            });
+        }
+
+        // Mostra/oculta o campo Curso conforme o perfil selecionado
+        var selectPerfil = document.getElementById('perfil');
+        var campoCurso = document.getElementById('campo-curso');
+        var inputCurso = document.getElementById('curso');
+        function sincronizarCurso() {
+            if (!selectPerfil || !campoCurso) return;
+            if (selectPerfil.value === 'aluno') {
+                campoCurso.style.display = '';
+            } else {
+                campoCurso.style.display = 'none';
+                if (inputCurso) inputCurso.value = '';
+            }
+        }
+        if (selectPerfil) {
+            selectPerfil.addEventListener('change', sincronizarCurso);
+            sincronizarCurso();
+        }
+
+        // Validação no cliente: confirmação de senha
+        var form = document.getElementById('form-perfil');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                var senha = document.getElementById('senha').value;
+                var confirmar = document.getElementById('confirmar-senha').value;
+                if (senha || confirmar) {
+                    if (senha.length < 6) {
+                        e.preventDefault();
+                        alert('A nova senha deve ter pelo menos 6 caracteres.');
+                        return;
+                    }
+                    if (senha !== confirmar) {
+                        e.preventDefault();
+                        alert('A senha e a confirmação não conferem.');
+                    }
+                }
+            });
+        }
     })();
 </script>
 

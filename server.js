@@ -44,7 +44,10 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + '-' + file.originalname);
     }
 });
-const upload = multer({ storage: storage });
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 50 * 1024 * 1024 }
+});
 
 function requerLogin(req, res, next) {
     if (!req.session.usuarioId) {
@@ -119,7 +122,17 @@ app.post('/atualizar_perfil', (req, res, next) => {
     console.log('[POST /atualizar_perfil] body:', req.body, 'file:', req.file);
     next();
 }, requerLogin, perfilController.atualizarPerfil);
-app.post('/enviar_projeto', requerLogin, upload.single('capa'), projetoController.enviarProjeto);
+app.post('/enviar_projeto', requerLogin, (req, res, next) => {
+    upload.fields([{ name: 'capa', maxCount: 1 }, { name: 'material', maxCount: 1 }])(req, res, function (err) {
+        if (err) {
+            console.error('[upload] erro do multer:', err.message);
+            if (err.code === 'LIMIT_FILE_SIZE') return res.redirect('/upload?erro=upload_falhou');
+            if (err.code === 'LIMIT_UNEXPECTED_FILE') return res.redirect('/upload?erro=campo_nao_suportado');
+            return res.redirect('/upload?erro=upload_falhou');
+        }
+        next();
+    });
+}, projetoController.enviarProjeto);
 sequelize.sync({ alter: true })
     .then(() => {
         console.log('Base de dados conectada e pronta!');

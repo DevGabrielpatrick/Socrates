@@ -10,6 +10,37 @@
 
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+    .drop-area{
+        flex-direction:column;
+        text-align:center;
+        padding:12px;
+    }
+    .drop-area img,
+    .drop-area video{
+        margin-bottom:8px;
+    }
+    .btn-limpar{
+        position:absolute;
+        top:8px;
+        right:8px;
+        width:28px;
+        height:28px;
+        border-radius:50%;
+        border:none;
+        background:#ff5454;
+        color:white;
+        font-size:18px;
+        line-height:1;
+        cursor:pointer;
+        align-items:center;
+        justify-content:center;
+        z-index:2;
+        box-shadow:0 2px 6px rgba(0,0,0,.4);
+    }
+    .btn-limpar:hover{ opacity:.9; }
+</style>
 </head>
 <body>
 
@@ -65,14 +96,30 @@
 
                 <div class="capa-upload">
                     <span>Capa do projeto</span>
-                    <div class="drop-area" style="position: relative;">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <input type="file" name="capa" accept="image/*" required style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                    <div class="drop-area" id="capa-area" style="position: relative;">
+                        <i class="fa-solid fa-cloud-arrow-up" id="capa-icone"></i>
+                        <img id="capa-preview" alt="" style="display:none; max-width:100%; max-height:160px; border-radius:10px;">
+                        <video id="capa-video-preview" controls style="display:none; max-width:100%; max-height:160px; border-radius:10px;"></video>
+                        <p id="capa-nome">Clique ou arraste a imagem</p>
+                        <input type="file" name="capa" id="input-capa" accept="image/*" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                        <button type="button" id="capa-limpar" class="btn-limpar" aria-label="Remover capa" style="display:none;">×</button>
+                    </div>
+                </div>
+
+                <div class="material-upload">
+                    <span>Material do projeto</span>
+                    <div class="drop-area" id="material-area" style="position: relative;">
+                        <i class="fa-solid fa-file-arrow-up" id="material-icone"></i>
+                        <img id="material-preview" alt="" style="display:none; max-width:100%; max-height:160px; border-radius:10px;">
+                        <video id="material-video-preview" controls style="display:none; max-width:100%; max-height:160px; border-radius:10px;"></video>
+                        <p id="material-nome">Clique ou arraste o arquivo</p>
+                        <input type="file" name="material" id="input-material" required style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                        <button type="button" id="material-limpar" class="btn-limpar" aria-label="Remover material" style="display:none;">×</button>
                     </div>
                 </div>
 
                 <label>Tipo de arquivo</label>
-                <select name="tipo">
+                <select name="tipo" id="select-tipo">
                     <option value="PDF">PDF</option>
                     <option value="Video">Vídeo</option>
                     <option value="Imagem">Imagem</option>
@@ -104,24 +151,117 @@
     (function () {
         var params = new URLSearchParams(window.location.search);
         var msg = document.getElementById('mensagem');
-        if (!msg) return;
-
-        if (params.get('sucesso') === '1') {
+        if (msg && params.get('sucesso')) {
             msg.style.display = 'block';
             msg.style.background = '#1f7a3a';
             msg.style.color = 'white';
-            msg.textContent = 'Perfil atualizado com sucesso!';
-        } else if (params.get('erro')) {
+            msg.textContent = 'Projeto enviado com sucesso!';
+        } else if (msg && params.get('erro')) {
             var erros = {
-                'campos_obrigatorios': 'Nome e email são obrigatórios.',
-                'email_duplicado': 'Este email já está em uso por outra conta.',
-                'upload_falhou': 'Falha no upload da foto (tamanho máximo 5 MB, tipos: JPG, PNG, GIF, WEBP).',
-                '1': 'Erro ao atualizar. Tente novamente.'
+                'upload_falhou': 'Falha no upload (tamanho máximo 50 MB).',
+                'campo_nao_suportado': 'Campo de arquivo não reconhecido pelo servidor.',
+                '1': 'Erro ao enviar o projeto. Tente novamente.'
             };
             msg.style.display = 'block';
             msg.style.background = '#7a1f1f';
             msg.style.color = 'white';
             msg.textContent = erros[params.get('erro')] || 'Erro desconhecido.';
+        }
+
+        // Função genérica: gerencia input, label, ícone, preview (imagem/vídeo) e botão limpar.
+        function configurarUpload(opts) {
+            var input = document.getElementById(opts.inputId);
+            var area = document.getElementById(opts.areaId);
+            var label = document.getElementById(opts.labelId);
+            var icone = document.getElementById(opts.iconeId);
+            var previewImg = document.getElementById(opts.previewImgId);
+            var previewVideo = document.getElementById(opts.previewVideoId);
+            var btnLimpar = document.getElementById(opts.btnLimparId);
+            if (!input || !label || !icone || !previewImg || !previewVideo || !btnLimpar) return;
+
+            function limpar() {
+                input.value = '';
+                label.textContent = opts.placeholder;
+                icone.style.display = '';
+                previewImg.style.display = 'none';
+                previewImg.removeAttribute('src');
+                previewVideo.style.display = 'none';
+                previewVideo.removeAttribute('src');
+                previewVideo.load && previewVideo.load();
+                btnLimpar.style.display = 'none';
+            }
+
+            input.addEventListener('change', function () {
+                var arquivo = input.files && input.files[0];
+                if (!arquivo) { limpar(); return; }
+
+                label.textContent = arquivo.name;
+                icone.style.display = 'none';
+                previewImg.style.display = 'none';
+                previewImg.removeAttribute('src');
+                previewVideo.style.display = 'none';
+                previewVideo.removeAttribute('src');
+
+                var tipo = arquivo.type || '';
+                var url = URL.createObjectURL(arquivo);
+                if (tipo.indexOf('image/') === 0) {
+                    previewImg.src = url;
+                    previewImg.style.display = 'block';
+                } else if (tipo.indexOf('video/') === 0) {
+                    previewVideo.src = url;
+                    previewVideo.style.display = 'block';
+                }
+                btnLimpar.style.display = 'flex';
+
+                // Libera a memória do blob URL quando trocar/limpar
+                input.addEventListener('change', function liber() {
+                    URL.revokeObjectURL(url);
+                    input.removeEventListener('change', liber);
+                });
+            });
+
+            btnLimpar.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                limpar();
+            });
+        }
+
+        configurarUpload({
+            inputId: 'input-capa',
+            areaId: 'capa-area',
+            labelId: 'capa-nome',
+            iconeId: 'capa-icone',
+            previewImgId: 'capa-preview',
+            previewVideoId: 'capa-video-preview',
+            btnLimparId: 'capa-limpar',
+            placeholder: 'Clique ou arraste a imagem'
+        });
+
+        configurarUpload({
+            inputId: 'input-material',
+            areaId: 'material-area',
+            labelId: 'material-nome',
+            iconeId: 'material-icone',
+            previewImgId: 'material-preview',
+            previewVideoId: 'material-video-preview',
+            btnLimparId: 'material-limpar',
+            placeholder: 'Clique ou arraste o arquivo'
+        });
+
+        // accept dinâmico do material conforme o tipo selecionado
+        var selectTipo = document.getElementById('select-tipo');
+        var inputMaterial = document.getElementById('input-material');
+        function atualizarAccept() {
+            if (!selectTipo || !inputMaterial) return;
+            var valor = selectTipo.value;
+            if (valor === 'PDF') inputMaterial.setAttribute('accept', '.pdf,application/pdf');
+            else if (valor === 'Video') inputMaterial.setAttribute('accept', 'video/*');
+            else if (valor === 'Imagem') inputMaterial.setAttribute('accept', 'image/*');
+        }
+        if (selectTipo) {
+            selectTipo.addEventListener('change', atualizarAccept);
+            atualizarAccept();
         }
     })();
 </script>

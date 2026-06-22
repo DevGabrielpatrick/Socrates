@@ -28,6 +28,10 @@ const Projeto = DB.define('Projeto', {
     capaUrl: {
         type: Sequelize.STRING,
         allowNull: true
+    },
+    materialUrl: {
+        type: Sequelize.STRING,
+        allowNull: true
     }
 }, {
     tableName: "projetos",

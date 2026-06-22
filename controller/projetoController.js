@@ -7,10 +7,16 @@ function enviarProjeto(req, res) {
         return res.redirect('/login');
     }
     const { titulo, tipo, dificuldade, descricao } = req.body;
-    
+
     let capaUrl = '';
-    if (req.file) {
-        capaUrl = '/uploads/' + req.file.filename; 
+    let materialUrl = '';
+    if (req.files) {
+        if (req.files.capa && req.files.capa[0]) {
+            capaUrl = '/uploads/' + req.files.capa[0].filename;
+        }
+        if (req.files.material && req.files.material[0]) {
+            materialUrl = '/uploads/' + req.files.material[0].filename;
+        }
     }
 
     Projeto.create({
@@ -19,6 +25,7 @@ function enviarProjeto(req, res) {
         dificuldade: dificuldade,
         descricao: descricao,
         capaUrl: capaUrl,
+        materialUrl: materialUrl,
         usuarioId: usuarioId
     })
     .then(() => {

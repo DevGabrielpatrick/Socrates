@@ -129,6 +129,8 @@
                     <p style="font-size: 13px; color: #a0a0a0; margin: 15px 0;">${projeto.descricao}</p>
 
                     <button class="btn-card">Visualizar</button>
+
+                    ${projeto.materialUrl ? `<a class="btn-card" href="${projeto.materialUrl}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;margin-top:8px;background:linear-gradient(to right,#6F52FF,#8B67FF);color:white;padding:10px;border-radius:10px;">Baixar material</a>` : ''}
                 </div>
                 `;
                 container.innerHTML += cardHTML;

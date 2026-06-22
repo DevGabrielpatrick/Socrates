@@ -36,11 +36,23 @@ function mostrarPerfil(req, res) {
             const htmlPath = path.join(__dirname, '..', 'view', 'alterarPerfil.html');
             let html = fs.readFileSync(htmlPath, 'utf8');
 
+            const perfil = (usuario.perfil || 'aluno').toLowerCase();
+            const areaValor = esc(usuario.area || '');
+            const cursoValor = esc(usuario.curso || '');
+
             html = html
                 .replace('value="Josefina da Silva"', `value="${esc(usuario.nome)}"`)
                 .replace('value="josefina57@gmail.com"', `value="${esc(usuario.email)}"`)
                 .replace('value="123456"', `value=""`)
-                .replace('src="https://i.pravatar.cc/250"', `src="${esc(usuario.foto || 'https://i.pravatar.cc/250')}"`);
+                .replace('src="https://i.pravatar.cc/250"', `src="${esc(usuario.foto || 'https://i.pravatar.cc/250')}"`)
+                .replace('id="area" name="area" placeholder="Ex.: Ciências Exatas, Humanas, Biológicas..."',
+                         `id="area" name="area" placeholder="Ex.: Ciências Exatas, Humanas, Biológicas..." value="${areaValor}"`)
+                .replace('id="curso" name="curso" placeholder="Ex.: Engenharia de Computação"',
+                         `id="curso" name="curso" placeholder="Ex.: Engenharia de Computação" value="${cursoValor}"`)
+                .replace('<option value="aluno">Aluno</option>',
+                         `<option value="aluno"${perfil === 'aluno' ? ' selected' : ''}>Aluno</option>`)
+                .replace('<option value="professor">Professor</option>',
+                         `<option value="professor"${perfil === 'professor' ? ' selected' : ''}>Professor</option>`);
 
             res.send(html);
         })
@@ -60,10 +72,27 @@ function atualizarPerfil(req, res) {
         const usuarioId = req.session.usuarioId;
         const novoNome = (req.body.nome || '').trim();
         const novoEmail = (req.body.email || '').trim();
+        const novoPerfil = (req.body.perfil || '').trim().toLowerCase();
+        const novaArea = (req.body.area || '').trim();
+        const novoCurso = novoPerfil === 'aluno' ? (req.body.curso || '').trim() : null;
         const novaSenha = req.body.senha || '';
+        const confirmarSenha = req.body.confirmarSenha || '';
 
-        if (!novoNome || !novoEmail) {
+        if (!novoNome || !novoEmail || !novoPerfil) {
             return res.redirect('/alterar_perfil?erro=campos_obrigatorios');
+        }
+
+        if (!['aluno', 'professor'].includes(novoPerfil)) {
+            return res.redirect('/alterar_perfil?erro=campos_obrigatorios');
+        }
+
+        if (novaSenha.length > 0 || confirmarSenha.length > 0) {
+            if (novaSenha !== confirmarSenha) {
+                return res.redirect('/alterar_perfil?erro=senhas_nao_conferem');
+            }
+            if (novaSenha.length < 6) {
+                return res.redirect('/alterar_perfil?erro=senha_curta');
+            }
         }
 
         Usuario.findByPk(usuarioId)
@@ -72,6 +101,9 @@ function atualizarPerfil(req, res) {
 
                 usuario.nome = novoNome;
                 usuario.email = novoEmail;
+                usuario.perfil = novoPerfil;
+                usuario.area = novaArea || null;
+                usuario.curso = novoCurso;
 
                 if (req.file) {
 
