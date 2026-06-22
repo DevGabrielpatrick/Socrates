@@ -1,5 +1,7 @@
 const Projeto = require('../model/Projeto');
 const Usuario = require('../model/Usuario');
+const fs = require('fs');
+const path = require('path');
 
 function enviarProjeto(req, res) {
     const usuarioId = req.session.usuarioId;
@@ -71,10 +73,46 @@ function listarTodosProjetos(req, res) {
     });
 }
 
+function excluirProjeto(req, res) {
+    const usuarioId = req.session.usuarioId;
+    const projetoId = req.params.id;
+
+    Projeto.findOne({ where: { id: projetoId, usuarioId: usuarioId } })
+        .then((projeto) => {
+            if (!projeto) {
+                return res.status(404).json({ erro: 'Projeto não encontrado ou você não tem permissão para excluí-lo.' });
+            }
+
+            if (projeto.capaUrl && projeto.capaUrl.startsWith('/uploads/')) {
+                const caminhoCapa = path.join(__dirname, '..', 'view', projeto.capaUrl);
+                if (fs.existsSync(caminhoCapa)) {
+                    try { fs.unlinkSync(caminhoCapa); } catch (_) {}
+                }
+            }
+
+            if (projeto.materialUrl && projeto.materialUrl.startsWith('/uploads/')) {
+                const caminhoMaterial = path.join(__dirname, '..', 'view', projeto.materialUrl);
+                if (fs.existsSync(caminhoMaterial)) {
+                    try { fs.unlinkSync(caminhoMaterial); } catch (_) {}
+                }
+            }
+
+            return projeto.destroy();
+        })
+        .then(() => {
+            res.json({ sucesso: true, mensagem: 'Projeto excluído com sucesso!' });
+        })
+        .catch((err) => {
+            console.error('Erro ao excluir projeto:', err);
+            res.status(500).json({ erro: 'Erro interno do servidor ao excluir.' });
+        });
+}
+
 module.exports = {
     enviarProjeto,
     listarMeusProjetos,
-    listarTodosProjetos
+    listarTodosProjetos,
+    excluirProjeto
 };
 
 

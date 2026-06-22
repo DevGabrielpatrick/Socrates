@@ -131,6 +131,8 @@
                     <button class="btn-card" ${projeto.materialUrl ? `onclick="abrirVisualizador('${projeto.materialUrl}', '${projeto.tipo}')"` : `onclick="alert('Este projeto não possui nenhum arquivo de material anexado.')"`}>Visualizar</button>
 
                     ${projeto.materialUrl ? `<a class="btn-card" href="${projeto.materialUrl}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;margin-top:8px;background:linear-gradient(to right,#6F52FF,#8B67FF);color:white;padding:10px;border-radius:10px;">Baixar material</a>` : ''}
+
+                    <button class="btn-card" onclick="deletarProjeto(${projeto.id})" style="background: #ff5454; margin-top: 8px; color: white;"><i class="fa-solid fa-trash-can" style="margin-right: 5px;"></i> Excluir Conteúdo</button>
                 </div>
                 `;
                 container.innerHTML += cardHTML;
@@ -204,6 +206,27 @@
                if (e.target === modal) modal.remove();
           };
         }
+    
+    function deletarProjeto(id) {
+    if (confirm('Tem certeza absoluta que deseja excluir este material permanentemente? Esta ação não pode ser desfeita.')) {
+        fetch(`/api/projetos/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso) {
+                alert(data.mensagem);
+                window.location.reload();
+            } else {
+                alert(data.erro || 'Não foi possível excluir o material.');
+            }
+        })
+        .catch(err => {
+            console.error('Erro na requisição de exclusão:', err);
+            alert('Erro ao conectar com o servidor.');
+        });
+    }
+}
 </script>
 
 <script src="./interceptor.js"></script>
