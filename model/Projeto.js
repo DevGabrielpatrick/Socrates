@@ -32,6 +32,14 @@ const Projeto = DB.define('Projeto', {
     materialUrl: {
         type: Sequelize.STRING,
         allowNull: true
+    },
+    usuarioId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'usuario',
+            key: 'id'
+        }
     }
 }, {
     tableName: "projetos",

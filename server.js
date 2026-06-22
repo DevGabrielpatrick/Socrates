@@ -133,7 +133,7 @@ app.post('/enviar_projeto', requerLogin, (req, res, next) => {
         next();
     });
 }, projetoController.enviarProjeto);
-sequelize.sync({ alter: true })
+sequelize.sync()
     .then(() => {
         console.log('Base de dados conectada e pronta!');
         app.listen(PORT, () => {
