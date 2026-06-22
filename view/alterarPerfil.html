@@ -187,6 +187,7 @@
                 <button
                     type="button"
                     class="btn-excluir"
+                    onclick="deletarConta()"
                 >
                     Excluir conta
                 </button>
@@ -304,6 +305,31 @@
             });
         }
     })();
+
+    function deletarConta() {
+    if (confirm('Atenção: Tem certeza absoluta que deseja excluir sua conta do Sócrates? Todos os seus dados serão perdidos e esta ação não pode ser desfeita.')) {
+        
+        if (typeof mostrarOverlay === 'function') mostrarOverlay();
+
+        fetch('/excluir_conta', {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso) {
+                window.location.href = '/carregando?to=/login&msg=Conta%20excluída%20com%20sucesso!';
+            } else {
+                alert(data.erro || 'Não foi possível excluir a conta.');
+                if (document.getElementById('appLoadingOverlay')) document.getElementById('appLoadingOverlay').remove();
+            }
+        })
+        .catch(err => {
+            console.error('Erro:', err);
+            alert('Erro de conexão com o servidor.');
+            if (document.getElementById('appLoadingOverlay')) document.getElementById('appLoadingOverlay').remove();
+        });
+    }
+}
 </script>
 
 <script src="./interceptor.js"></script>

@@ -151,7 +151,38 @@ function esc(value) {
         .replace(/>/g, '&gt;');
 }
 
+function excluirConta(req, res) {
+    const usuarioId = req.session.usuarioId;
+
+    Usuario.findByPk(usuarioId)
+        .then((usuario) => {
+            if (!usuario) {
+                return res.status(404).json({ erro: 'Usuário não encontrado.' });
+            }
+
+            // Apaga a foto de perfil do servidor, se existir
+            if (usuario.foto && usuario.foto.startsWith('/imagens/perfis/')) {
+                const caminhoFoto = path.join(__dirname, '..', 'view', usuario.foto);
+                if (fs.existsSync(caminhoFoto)) {
+                    try { fs.unlinkSync(caminhoFoto); } catch (_) {}
+                }
+            }
+
+            return usuario.destroy();
+        })
+        .then(() => {
+            req.session.destroy(() => {
+                res.json({ sucesso: true });
+            });
+        })
+        .catch((err) => {
+            console.error('Erro ao excluir conta:', err);
+            res.status(500).json({ erro: 'Erro interno ao tentar excluir a conta.' });
+        });
+}
+
 module.exports = {
     mostrarPerfil,
-    atualizarPerfil
+    atualizarPerfil,
+    excluirConta
 };

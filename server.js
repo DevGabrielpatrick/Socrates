@@ -112,6 +112,7 @@ app.get('/logout', (req, res) => {
         res.redirect('/carregando?to=/login&msg=Até%20logo!');
     });
 });
+app.delete('/excluir_conta', requerLogin, perfilController.excluirConta);
 app.delete('/api/projetos/:id', requerLogin, projetoController.excluirProjeto);
 app.get('/api/meus_projetos', requerLogin, projetoController.listarMeusProjetos);
 app.get('/api/todos_projetos', requerLogin, projetoController.listarTodosProjetos);
