@@ -42,7 +42,8 @@ const Usuario = DB.define('Usuario', {
     },
     foto: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
+        defaultValue: './imagens/fotoPerfil.jpeg'
     }
 }, {
     tableName: "usuario",

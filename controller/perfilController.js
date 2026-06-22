@@ -44,7 +44,7 @@ function mostrarPerfil(req, res) {
                 .replace('value="Josefina da Silva"', `value="${esc(usuario.nome)}"`)
                 .replace('value="josefina57@gmail.com"', `value="${esc(usuario.email)}"`)
                 .replace('value="123456"', `value=""`)
-                .replace('src="https://i.pravatar.cc/250"', `src="${esc(usuario.foto || 'https://i.pravatar.cc/250')}"`)
+                .replace('src="https://i.pravatar.cc/250"', `src="${esc(usuario.foto || './imagens/fotoPerfil.jpeg')}"`)
                 .replace('id="area" name="area" placeholder="Ex.: Ciências Exatas, Humanas, Biológicas..."',
                          `id="area" name="area" placeholder="Ex.: Ciências Exatas, Humanas, Biológicas..." value="${areaValor}"`)
                 .replace('id="curso" name="curso" placeholder="Ex.: Engenharia de Computação"',

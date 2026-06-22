@@ -31,7 +31,7 @@ function mostrarMain(req, res) {
         .then((usuario) => {
             if (!usuario) return res.redirect('/logout');
 
-            const fotoUsuario = req.session.usuarioFoto || usuario.foto || 'https://i.pravatar.cc/80';
+            const fotoUsuario = req.session.usuarioFoto || usuario.foto || './imagens/fotoPerfil.jpeg';
             const saudacao = gerarSaudacao();
 
             let html = getMainHtml()
