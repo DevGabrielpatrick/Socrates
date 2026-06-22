@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando...</title>
+
+    <link rel="stylesheet" href="./Estilo/carregamento.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="carregando-body">
+
+    <div class="loading-screen" id="loadingScreen">
+
+        <div class="logo-container">
+
+            <i class="fa-solid fa-graduation-cap logo"></i>
+
+            <div class="pulse pulse-1"></div>
+            <div class="pulse pulse-2"></div>
+            <div class="pulse pulse-3"></div>
+
+        </div>
+
+        <h2 id="mensagem">Carregando...</h2>
+
+    </div>
+
+    <script>
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            var destino = params.get('to') || '/home';
+            var duracao = parseInt(params.get('d'), 10) || 1400;
+            var msg = params.get('msg') || 'Carregando...';
+
+            document.getElementById('mensagem').textContent = msg;
+
+            // Faz fade-out no finalzinho antes de redirecionar
+            setTimeout(function () {
+                document.body.classList.add('fade-out');
+            }, duracao - 300);
+
+            setTimeout(function () {
+                window.location.href = destino;
+            }, duracao);
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="./Estilo/login.css">
+    <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    
+    <div class="circulo">
+        <img src="./imagens/socrates.png" alt="Logo">
+    </div>
+
+    <div class="container">
+
+        <h1>Login</h1>
+
+        <form action="/login" method="POST">
+
+            <div class="campo">
+                <label for="usuario">Usuário (E-mail):</label>
+                <input type="email" id="usuario" name="email" required>
+                <a href="/cadastro">Não tenho conta/Registrar</a>
+            </div>
+
+            <div class="campo">
+                <label for="senha">Senha:</label>
+                <div class="senha-wrapper">
+                    <input type="password" id="senha" name="senha" required>
+                    <button type="button" class="olho-btn" data-alvo="senha" aria-label="Mostrar senha">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+                <a href="/esqueci_senha">Esqueci minha senha</a>
+            </div>
+
+        <button type="submit">Login</button>
+
+        </form>
+
+        <div id="aviso-login" class="aviso" hidden></div>
+    </div>
+
+    <script src="./interceptor.js"></script>
+    <script>
+        (function () {
+            const aviso = document.getElementById('aviso-login');
+            const params = new URLSearchParams(window.location.search);
+            const erro = params.get('erro');
+
+            const mensagens = {
+                usuario_nao_encontrado: 'E-mail não cadastrado. Verifique e tente novamente.',
+                senha_incorreta: 'Senha incorreta. Tente novamente.',
+                erro_no_servidor: 'Ocorreu um erro no servidor. Tente novamente em instantes.',
+                senha_temporaria: 'Você entrou com uma senha temporária. Redefina sua senha para continuar.'
+            };
+
+            if (erro && mensagens[erro]) {
+                aviso.textContent = mensagens[erro];
+                aviso.hidden = false;
+                aviso.dataset.tipo = erro;
+            }
+
+            // Toggle do botão de olho
+            document.querySelectorAll('.olho-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const alvoId = btn.getAttribute('data-alvo');
+                    const input = document.getElementById(alvoId);
+                    if (!input) return;
+                    const icone = btn.querySelector('i');
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icone.classList.remove('fa-eye');
+                        icone.classList.add('fa-eye-slash');
+                        btn.setAttribute('aria-label', 'Ocultar senha');
+                    } else {
+                        input.type = 'password';
+                        icone.classList.remove('fa-eye-slash');
+                        icone.classList.add('fa-eye');
+                        btn.setAttribute('aria-label', 'Mostrar senha');
+                    }
+                });
+            });
+        })();
+    </script>
+
+</body>
+</html>

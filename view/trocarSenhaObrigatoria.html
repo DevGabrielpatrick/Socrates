@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defina sua nova senha</title>
+    <link rel="stylesheet" href="./Estilo/login.css">
+    <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Pequeno override para garantir o aviso topo a topo no body escuro */
+        body {
+            align-items: flex-start;
+            justify-content: center;
+            padding: 40px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="circulo">
+        <img src="./imagens/socrates.png" alt="Logo">
+    </div>
+
+    <div class="container" style="margin-right:0;">
+
+        <h1 style="font-size:52px;">Olá, {{nome}}!</h1>
+
+        <p style="color:white; font-size:20px; text-align:center; margin-bottom:30px;">
+            Você entrou com uma senha temporária.<br>
+            Por segurança, defina agora uma senha definitiva para continuar.
+        </p>
+
+        <div id="aviso-erro" class="aviso" hidden></div>
+
+        <form action="/trocar_senha_obrigatoria" method="POST">
+
+            <div class="campo">
+                <label for="nova-senha">Nova senha (mínimo 6 caracteres):</label>
+                <div class="senha-wrapper">
+                    <input type="password" id="nova-senha" name="novaSenha" minlength="6" required>
+                    <button type="button" class="olho-btn" data-alvo="nova-senha" aria-label="Mostrar senha">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="confirmar-nova-senha">Confirmar nova senha:</label>
+                <div class="senha-wrapper">
+                    <input type="password" id="confirmar-nova-senha" name="confirmarSenha" minlength="6" required>
+                    <button type="button" class="olho-btn" data-alvo="confirmar-nova-senha" aria-label="Mostrar senha">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit">Definir nova senha</button>
+
+        </form>
+
+    </div>
+
+    <script src="./interceptor.js"></script>
+    <script>
+        (function () {
+            const aviso = document.getElementById('aviso-erro');
+            const params = new URLSearchParams(window.location.search);
+            const erro = params.get('erro');
+
+            const erros = {
+                senha_curta: 'A senha precisa ter no mínimo 6 caracteres.',
+                senhas_diferentes_troca: 'As senhas digitadas não conferem.',
+                erro_no_servidor: 'Ocorreu um erro no servidor. Tente novamente.'
+            };
+
+            if (erro && erros[erro]) {
+                aviso.textContent = erros[erro];
+                aviso.hidden = false;
+                aviso.dataset.tipo = erro;
+            }
+
+            // Toggle do botão de olho
+            document.querySelectorAll('.olho-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const alvoId = btn.getAttribute('data-alvo');
+                    const input = document.getElementById(alvoId);
+                    if (!input) return;
+                    const icone = btn.querySelector('i');
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icone.classList.remove('fa-eye');
+                        icone.classList.add('fa-eye-slash');
+                        btn.setAttribute('aria-label', 'Ocultar senha');
+                    } else {
+                        input.type = 'password';
+                        icone.classList.remove('fa-eye-slash');
+                        icone.classList.add('fa-eye');
+                        btn.setAttribute('aria-label', 'Mostrar senha');
+                    }
+                });
+            });
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração de Perfil</title>
+
+    <link rel="stylesheet" href="./Estilo/main.css">
+    <link rel="icon" href="./imagens/socratesroxo.png" type="image/png">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<aside class="sidebar">
+
+        <div class="logo">
+            <img src="./imagens/socrates.png" alt="Logo">
+        </div>
+
+        <button class="menu-btn">
+    <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <nav>
+            
+     <a href="/home" title="Home">
+        <img src="./imagens/Imagem1.png" alt="Dashboard">
+    </a>
+
+    <a href="/pesquisa" title="Pesquisar">
+        <img src="./imagens/imagem5.png" alt="Dashboard">
+    </a>
+
+    <a href="/materiais" class="ativo" title="Materiais">
+        <img src="./imagens/imagem6.png" alt="Materiais">
+    </a>
+
+    <a href="/upload" title="Upload">
+       <img src="./imagens/imagem7.png" alt="Adicionar conteudo">
+    </a>
+
+    <a href="/alterar_perfil" title="Perfil">
+        <img src="./imagens/Imagem2.png" alt="Perfil">
+    </a>
+        </nav>
+
+        <div class="logout">
+    <a href="/logout" title="Sair">
+        <img src="./imagens/Imagem3.png" alt="Perfil">
+    </a>
+</div>
+    </aside>
+
+
+<main class="conteudo">
+    
+    <header>
+        <div class="pesquisa">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Pesquisar Material">
+        </div>
+
+        <a href="/alterar_perfil" title="Meu perfil">
+            <img src="{{FOTO}}" alt="{{NOME}}" class="avatar">
+        </a>
+    </header>
+
+    <section class="topo">
+        <h2>Materiais Enviados por você</h2>
+    </section>
+
+    <section class="cards" id="container-projetos">
+        </section>
+
+    <header class="sem-envio" id="mensagem-vazio" style="display: none; margin-top: 50px; text-align: center;">
+        <h1>Você ainda não enviou nenhum conteúdo!!!</h1>
+    </header>
+
+</main>
+
+<script>
+    (function () {
+        var params = new URLSearchParams(window.location.search);
+        var msg = document.getElementById('mensagem');
+        if (msg && params.get('sucesso')) {
+            msg.style.display = 'block';
+            msg.style.background = '#1f7a3a';
+            msg.style.color = 'white';
+            msg.textContent = 'Ação realizada com sucesso!';
+        }
+    })();
+
+    fetch('/api/meus_projetos?nocache=' + new Date().getTime())
+        .then(response => response.json())
+        .then(projetos => {
+            const container = document.getElementById('container-projetos');
+            const msgVazio = document.getElementById('mensagem-vazio');
+
+            if (projetos.length === 0) {
+                msgVazio.style.display = 'block';
+                return;
+            }
+
+            projetos.forEach(projeto => {
+                const imagemSrc = projeto.capaUrl ? projeto.capaUrl : './imagens/Imagem4.png';
+                
+                const usr = projeto.Usuario || projeto.usuario;
+                const fotoAutor = usr ? (usr.FotoPerfil || usr.fotoPerfil || usr.fotoperfil || usr.foto_perfil || usr.foto || './imagens/imagem8.jpg') : './imagens/imagem8.jpg';
+                const nomeAutor = usr ? (usr.Nome || usr.nome || 'Usuário Desconhecido') : 'Usuário Desconhecido';
+                
+                const cardHTML = `
+                <div class="card">
+                    <img src="${imagemSrc}" alt="Capa do Projeto" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                    
+                    <h3 style="margin-top: 15px;">${projeto.titulo}</h3>
+                    
+                    <div class="info">
+                        <span>Dificuldade</span>
+                        <span>${projeto.dificuldade}</span>
+                    </div>
+                    
+                    <div class="info">
+                        <span>Tipo</span>
+                        <span>${projeto.tipo}</span>
+                    </div>
+
+                    <p style="font-size: 13px; color: #a0a0a0; margin: 15px 0;">${projeto.descricao}</p>
+
+                    <button class="btn-card">Visualizar</button>
+
+                    ${projeto.materialUrl ? `<a class="btn-card" href="${projeto.materialUrl}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;margin-top:8px;background:linear-gradient(to right,#6F52FF,#8B67FF);color:white;padding:10px;border-radius:10px;">Baixar material</a>` : ''}
+                </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        })
+        .catch(err => console.error('Erro ao carregar projetos:', err));
+</script>
+
+<script src="./interceptor.js"></script>
+
+</body>
+</html>

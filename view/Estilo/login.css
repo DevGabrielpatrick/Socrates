@@ -1,0 +1,341 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #131129;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    overflow-x: hidden;
+}
+
+/* Círculo */
+.circulo {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    background: #6f52ff;
+    border-radius: 50%;
+    left: -350px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circulo img {
+    width: 300px;
+    margin-left: 180px;
+}
+
+/* Container */
+.container {
+    width: 700px;
+    max-width: 90%;
+    padding: 90px;
+    background-color: #131129;
+    border: 2px solid #232d7c;
+    border-radius: 30px;
+    margin-right: 100px;
+}
+
+.container h1 {
+    text-align: center;
+    color: white;
+    font-size: 80px;
+    margin-bottom: 40px;
+}
+
+/* Campos */
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+.campo label {
+    color: white;
+    margin-bottom: 8px;
+    font-size: 25px;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+    border: 2px solid #232d7c;
+    border-radius: 25px;
+    background-color: #1d1a3d;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: #6f52ff;
+}
+
+.campo a {
+    margin-top: 8px;
+    color: #fdfdfd; /* cor roxa */
+    text-decoration: none;
+    font-size: 20px; /* aumenta o tamanho */
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.campo a:visited {
+    color: #6f52ff; /* evita ficar roxo escuro após clicar */
+}
+
+.campo a:hover {
+    color: #6f52ff;
+    text-decoration:none;
+    
+}
+
+/* Botão */
+button {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(
+        to right,
+        #6f52ff,
+        #8b67ff
+    );
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.02);
+}
+
+/* Tablet e celular */
+@media (max-width: 1250px) {
+
+    body {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        overflow-y: auto;
+    }
+
+    .circulo {
+        position: relative;
+        width: 600px;
+        height: 600px;
+
+        left: 0;
+        top: -300px;
+        transform: none;
+
+        margin-bottom: -250px;
+    }
+
+    .circulo img {
+        width: 180px;
+        margin-left: 0;
+        margin-top: 250px;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 600px;
+        margin: 0 0 40px 0;
+        padding: 35px;
+    }
+
+    .container h1 {
+        font-size: 38px;
+    }
+}
+
+/* Celulares menores */
+@media (max-width: 768px) {
+
+    .circulo {
+        width: 450px;
+        height: 450px;
+        top: -225px;
+        margin-bottom: -180px;
+    }
+
+    .circulo img {
+        width: 140px;
+        margin-top: 180px;
+    }
+
+    .container {
+        padding: 25px;
+    }
+
+    .container h1 {
+        font-size: 32px;
+    }
+}
+
+/* Avisos do login */
+.aviso {
+    margin-top: 20px;
+    padding: 12px 18px;
+    border-radius: 15px;
+    font-size: 16px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #2a1f4d;
+    border: 1px solid #6f52ff;
+}
+
+.aviso[data-tipo="senha_incorreta"] {
+    background-color: #4a1f1f;
+    border-color: #ff6b6b;
+    color: #ffd6d6;
+}
+
+.aviso[data-tipo="usuario_nao_encontrado"] {
+    background-color: #4a3a1f;
+    border-color: #ffb84d;
+    color: #ffe9c2;
+}
+
+.aviso[data-tipo="email_nao_encontrado"] {
+    background-color: #4a3a1f;
+    border-color: #ffb84d;
+    color: #ffe9c2;
+}
+
+.aviso[data-tipo="erro_no_servidor"] {
+    background-color: #4a1f1f;
+    border-color: #ff6b6b;
+    color: #ffd6d6;
+}
+
+.aviso[data-tipo="senha_temporaria"],
+.aviso[data-tipo="senha_temp_gerada"] {
+    background-color: #1f3a4a;
+    border-color: #4da6ff;
+    color: #d6ecff;
+}
+
+.aviso[data-tipo="senha_curta"],
+.aviso[data-tipo="senhas_diferentes_troca"] {
+    background-color: #4a1f1f;
+    border-color: #ff6b6b;
+    color: #ffd6d6;
+}
+
+.aviso[data-tipo="senha_trocada"] {
+    background-color: #1f4a2a;
+    border-color: #4dff7a;
+    color: #d6ffd6;
+}
+
+/* Wrapper do campo de senha + botão de olho */
+.senha-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.senha-wrapper input {
+    padding-right: 55px; /* espaço para o botão de olho não cobrir o texto */
+}
+
+.olho-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    border: none;
+    color: #c0c0ff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.olho-btn:hover {
+    color: #6f52ff;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.olho-btn:focus {
+    outline: none;
+    color: #6f52ff;
+}
+
+/* Senha temporária em destaque */
+.senha-temp-box {
+    margin-top: 24px;
+    padding: 24px;
+    border-radius: 20px;
+    background-color: #1d1a3d;
+    border: 2px solid #6f52ff;
+    text-align: center;
+    color: white;
+}
+
+.senha-temp-box .rotulo {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #c0c0ff;
+}
+
+.senha-temp-box .senha-temp-valor {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 32px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #0f0b33;
+    padding: 14px 20px;
+    border-radius: 12px;
+    display: inline-block;
+    user-select: all;
+}
+
+.senha-temp-box .alerta {
+    margin-top: 18px;
+    font-size: 15px;
+    color: #ffe9c2;
+    background-color: #4a3a1f;
+    border: 1px solid #ffb84d;
+    border-radius: 10px;
+    padding: 10px 14px;
+}
+
+.senha-temp-box .btn-ir-login {
+    margin-top: 22px;
+    display: inline-block;
+    text-decoration: none;
+    width: auto;
+    padding: 0 32px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 25px;
+    background: linear-gradient(to right, #6f52ff, #8b67ff);
+    color: white;
+    font-size: 17px;
+    transition: 0.3s;
+}
+
+.senha-temp-box .btn-ir-login:hover {
+    transform: scale(1.02);
+}
