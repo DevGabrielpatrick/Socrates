@@ -9,8 +9,8 @@ const authController = require('./controller/authController');
 const perfilController = require('./controller/perfilController');
 const mainController = require('./controller/mainController');
 const projetoController = require('./controller/projetoController');
-const Projeto = require('./model/Projeto'); // Necessário para o Sequelize criar a tabela
-const Usuario = require('./model/Usuario'); // Adicione esta linha no topo
+const Projeto = require('./model/Projeto');
+const Usuario = require('./model/Usuario');
 
 const app = express();
 const PORT = 3000;
